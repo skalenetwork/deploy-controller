@@ -31,11 +31,33 @@ class DeployControllerGenerator(AccessControlEnumerableGenerator):
     '''Generates DeployController
     '''
 
-    pass
+    ARTIFACT_FILENAME = 'DeployController.json'
+    DEFAULT_ADMIN_ROLE = (0).to_bytes(32, 'big')
+    DEPLOYER_ROLE = w3.solidityKeccak(['string'], ['DEPLOYER_ROLE'])
+
+    ROLES_SLOT = 101
+    ROLE_MEMBERS_SLOT = 151
+
+    def __init__(self):
+        generator = DeployControllerGenerator.from_hardhat_artifact(join(
+            dirname(__file__),
+            'artifacts',
+            self.ARTIFACT_FILENAME))
+        super().__init__(bytecode=generator.bytecode)
+
+    @classmethod
+    def generate_storage(cls, **kwargs) -> Dict[str, str]:
+        schain_owner = kwargs['schain_owner']
+        storage: Dict[str, str] = {}
+        roles_slots = cls.RolesSlots(roles=cls.ROLES_SLOT, role_members=cls.ROLE_MEMBERS_SLOT)
+        cls._setup_role(storage, roles_slots, cls.DEFAULT_ADMIN_ROLE, [schain_owner])
+        cls._setup_role(storage, roles_slots, cls.DEPLOYER_ROLE, [schain_owner])
+        return storage
 
 
 class UpgradeableDeployControllerGenerator(UpgradeableContractGenerator):
     '''Generates upgradeable instance of DeployControllerUpgradeable
     '''
 
-    pass
+    def __init__(self):
+        super().__init__(implementation_generator=DeployControllerGenerator())
