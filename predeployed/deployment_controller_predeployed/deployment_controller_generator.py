@@ -27,11 +27,11 @@ from predeployed_generator.openzeppelin.access_control_enumerable_generator \
     import AccessControlEnumerableGenerator
 
 
-class DeployControllerGenerator(AccessControlEnumerableGenerator):
-    '''Generates DeployController
+class DeploymentControllerGenerator(AccessControlEnumerableGenerator):
+    '''Generates DeploymentController
     '''
 
-    ARTIFACT_FILENAME = 'DeployController.json'
+    ARTIFACT_FILENAME = 'DeploymentController.json'
     DEFAULT_ADMIN_ROLE = (0).to_bytes(32, 'big')
     DEPLOYER_ROLE = w3.solidityKeccak(['string'], ['DEPLOYER_ROLE'])
 
@@ -39,7 +39,7 @@ class DeployControllerGenerator(AccessControlEnumerableGenerator):
     ROLE_MEMBERS_SLOT = 151
 
     def __init__(self):
-        generator = DeployControllerGenerator.from_hardhat_artifact(join(
+        generator = DeploymentControllerGenerator.from_hardhat_artifact(join(
             dirname(__file__),
             'artifacts',
             self.ARTIFACT_FILENAME))
@@ -55,9 +55,9 @@ class DeployControllerGenerator(AccessControlEnumerableGenerator):
         return storage
 
 
-class UpgradeableDeployControllerGenerator(UpgradeableContractGenerator):
+class UpgradeableDeploymentControllerGenerator(UpgradeableContractGenerator):
     '''Generates upgradeable instance of DeployControllerUpgradeable
     '''
 
     def __init__(self):
-        super().__init__(implementation_generator=DeployControllerGenerator())
+        super().__init__(implementation_generator=DeploymentControllerGenerator())

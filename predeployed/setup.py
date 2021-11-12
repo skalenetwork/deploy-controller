@@ -19,9 +19,9 @@ extras_require['dev'] = (
 )
 
 setup(
-    name='deploy-controller-predeployed',
+    name='deployment-controller-predeployed',
     version='1.0.0',
-    description='A tool for generating predeployed deploy controller smart contract',
+    description='A tool for generating predeployed deployment controller smart contract',
     long_description_markdown_filename='README.md',
     author='SKALE Labs',
     author_email='support@skalelabs.com',
@@ -34,7 +34,7 @@ setup(
     keywords=['skale', 'predeployed'],
     packages=find_packages(),
     package_data={
-        'deploy_controller_predeployed': ['artifacts/DeployController.json']
+        'deploy_controller_predeployed': ['artifacts/DeploymentController.json']
     },
     setup_requires=["setuptools-markdown"],
     classifiers=[
