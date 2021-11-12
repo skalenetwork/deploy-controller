@@ -24,6 +24,10 @@ jobs:
       - name: Compile with truffle
         run: |
           npm run compile
+      - name: Install geth
+        run: |
+          sudo add-apt-repository -y ppa:ethereum/ethereum
+          sudo apt install ethereum
       - name: Install python dependencies
         working-directory: ./predeployed
         run: |
