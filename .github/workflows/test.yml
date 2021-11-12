@@ -1,0 +1,33 @@
+name: Test
+on: [push, pull_request]
+
+jobs:
+  predeployed-test:
+    runs-on: ubuntu-18.04
+    env:
+      SCHAIN_VERSION: 3.7.5-stable.0
+      SCHAIN_OWNER_PK: ${{ secrets.SCHAIN_OWNER_PK }}
+      ENTRYPOINT: "http://127.0.0.1:2234"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: Install dependencies
+        run: |
+          npm i
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install python dependencies
+        run: |
+          pip install -e ./predeployed
+      - name: Compile with truffle
+        run: |
+          npm run compile
+      - name: Run tests
+        working-directory: ./predeployed
+        run: |
+          pytest .

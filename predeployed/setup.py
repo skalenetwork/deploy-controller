@@ -10,7 +10,8 @@ extras_require = {
         "flake8==3.7.9"
     ],
     'dev': [
-        "twine==3.1.1"
+        "twine==3.1.1",
+        "pytest==6.2.5"
     ],
 }
 
