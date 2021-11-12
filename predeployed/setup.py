@@ -37,7 +37,7 @@ setup(
     package_data={
         'deploy_controller_predeployed': ['artifacts/DeploymentController.json']
     },
-    setup_requires=["setuptools-markdown"],
+    setup_requires=["setuptools-markdown", "wheel"],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
