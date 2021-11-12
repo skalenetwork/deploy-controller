@@ -21,13 +21,14 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-      - name: Install python dependencies
-        working-directory: ./predeployed
-        run: |
-          pip install -e .[dev]
       - name: Compile with truffle
         run: |
           npm run compile
+      - name: Install python dependencies
+        working-directory: ./predeployed
+        run: |
+          pip install wheel
+          pip install -e .[dev]
       - name: Run tests
         working-directory: ./predeployed
         run: |
