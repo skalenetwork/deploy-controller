@@ -3,6 +3,7 @@ import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
 
 contract DeploymentController is AccessControlEnumerableUpgradeable {
+    bytes32 public constant DEPLOYER_ADMIN_ROLE = keccak256("DEPLOYER_ADMIN_ROLE");
     bytes32 public constant DEPLOYER_ROLE = keccak256("DEPLOYER_ROLE");
 
     function addToWhitelist(address addr) external {
@@ -14,6 +15,6 @@ contract DeploymentController is AccessControlEnumerableUpgradeable {
     }
 
     function isAddressWhitelisted(address addr) external view returns (bool) {
-        return hasRole(DEFAULT_ADMIN_ROLE, addr) || hasRole(DEPLOYER_ROLE, addr) || AddressUpgradeable.isContract(addr);
+        return hasRole(DEPLOYER_ROLE, addr) || AddressUpgradeable.isContract(addr);
     }
 }
