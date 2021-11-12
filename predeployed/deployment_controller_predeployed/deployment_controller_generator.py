@@ -18,7 +18,7 @@
 #   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from os.path import dirname, join
-from typing import Dict
+from typing import Dict, List
 
 from web3.auto import w3
 
@@ -34,6 +34,7 @@ class DeploymentControllerGenerator(AccessControlEnumerableGenerator):
     ARTIFACT_FILENAME = 'DeploymentController.json'
     DEFAULT_ADMIN_ROLE = (0).to_bytes(32, 'big')
     DEPLOYER_ROLE = w3.solidityKeccak(['string'], ['DEPLOYER_ROLE'])
+    DEPLOYER_ADMIN_ROLE = w3.solidityKeccak(['string'], ['DEPLOYER_ADMIN_ROLE'])
 
     ROLES_SLOT = 101
     ROLE_MEMBERS_SLOT = 151
@@ -46,12 +47,29 @@ class DeploymentControllerGenerator(AccessControlEnumerableGenerator):
         super().__init__(bytecode=generator.bytecode)
 
     @classmethod
+    def _setup_role_admin(
+            cls,
+            storage: dict,
+            slots: AccessControlEnumerableGenerator.RolesSlots,
+            role: bytes,
+            admin_role: bytes
+    ) -> None:
+        role_data_slot = cls.calculate_mapping_value_slot(
+            slots.roles,
+            role,
+            'bytes32')
+        admin_role_slot = role_data_slot + 1
+        cls._write_bytes32(storage, admin_role_slot, admin_role)
+
+    @classmethod
     def generate_storage(cls, **kwargs) -> Dict[str, str]:
         schain_owner = kwargs['schain_owner']
         storage: Dict[str, str] = {}
         roles_slots = cls.RolesSlots(roles=cls.ROLES_SLOT, role_members=cls.ROLE_MEMBERS_SLOT)
         cls._setup_role(storage, roles_slots, cls.DEFAULT_ADMIN_ROLE, [schain_owner])
+        cls._setup_role(storage, roles_slots, cls.DEPLOYER_ADMIN_ROLE, [schain_owner])
         cls._setup_role(storage, roles_slots, cls.DEPLOYER_ROLE, [schain_owner])
+        cls._setup_role_admin(storage, roles_slots, cls.DEPLOYER_ROLE, cls.DEPLOYER_ADMIN_ROLE)
         return storage
 
 

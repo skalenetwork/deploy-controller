@@ -37,6 +37,20 @@ class TestEtherbaseGenerator(TestSolidityProject):
 
             dc = w3.eth.contract(address=DEPLOYMENT_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
             assert dc.functions.getRoleMemberCount(DeploymentControllerGenerator.DEPLOYER_ROLE).call() == 1
+            assert dc.functions.getRoleAdmin(DeploymentControllerGenerator.DEPLOYER_ROLE).call() == \
+                   DeploymentControllerGenerator.DEPLOYER_ADMIN_ROLE
             assert dc.functions.getRoleMember(DeploymentControllerGenerator.DEPLOYER_ROLE,
                                               0).call() == self.OWNER_ADDRESS
             assert dc.functions.hasRole(DeploymentControllerGenerator.DEPLOYER_ROLE, self.OWNER_ADDRESS).call()
+
+    def test_deployer_admin_role(self, tmpdir):
+        genesis = self.prepare_genesis()
+
+        with self.run_geth(tmpdir, genesis):
+            assert w3.isConnected()
+
+            dc = w3.eth.contract(address=DEPLOYMENT_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
+            assert dc.functions.getRoleMemberCount(DeploymentControllerGenerator.DEPLOYER_ADMIN_ROLE).call() == 1
+            assert dc.functions.getRoleMember(DeploymentControllerGenerator.DEPLOYER_ADMIN_ROLE,
+                                              0).call() == self.OWNER_ADDRESS
+            assert dc.functions.hasRole(DeploymentControllerGenerator.DEPLOYER_ADMIN_ROLE, self.OWNER_ADDRESS).call()
