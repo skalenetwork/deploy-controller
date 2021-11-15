@@ -4,6 +4,8 @@ on: [push, pull_request]
 jobs:
   predeployed-test:
     runs-on: ubuntu-18.04
+    env:
+      ETH_PRIVATE_KEY: ${{ secrets.ETH_PRIVATE_KEY }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up Node 14
