@@ -1,6 +1,7 @@
 import json
 import subprocess
 import os
+import time
 
 
 class GethInstance:
@@ -20,10 +21,15 @@ class GethInstance:
 class TestPredeployed:
     GENESIS_FILENAME = 'genesis.json'
 
-    def generate_genesis(self, allocations: dict = {}):
+    def generate_genesis(self, owner: str, allocations: dict = {}):
         base_genesis_filename = os.path.join(os.path.dirname(__file__), 'base_genesis.json')
         with open(base_genesis_filename) as base_genesis_file:
             genesis = json.load(base_genesis_file)
+            genesis['alloc'].update({
+                owner: {
+                    'balance': "100000000000000000"
+                }
+            })
             genesis['alloc'].update(allocations)
             return genesis
 
@@ -36,8 +42,14 @@ class TestPredeployed:
         process = subprocess.run(['geth', '--datadir', tmpdir, 'init', genesis_filename], capture_output=True)
         assert process.returncode == 0
 
-        # run geth
-        self.geth = subprocess.Popen(['geth', '--datadir', tmpdir, '--dev', '--http'], stderr=subprocess.PIPE, universal_newlines=True)
+        self.geth = subprocess.Popen(['geth', '--datadir', tmpdir, '--dev', '--http', '--mine',
+                                      '--http.api', 'personal,eth,net,web3,txpool,miner'],
+                                     stderr=subprocess.PIPE, universal_newlines=True)
+        time.sleep(5)
+
+        # mine blocks
+        subprocess.Popen(['curl', '-d', '{"method": "miner_start"}', '-H', 'Content-type: application/json',
+                          'http://127.0.0.1:8545'])
 
         while True:
             assert self.geth.poll() is None
