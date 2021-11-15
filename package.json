@@ -1,0 +1,35 @@
+{
+  "name": "@skalenetwork/deploy-controller",
+  "version": "1.0.0",
+  "description": "deploy-controller",
+  "keywords": [
+    "SKALE",
+    "blockchain",
+    "ethereum"
+  ],
+  "homepage": "https://github.com/skalenetwork/deploy-controller#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skalenetwork/deploy-controller.git"
+  },
+  "license": "AGPL-3.0",
+  "author": "SKALE Labs and contributors",
+  "scripts": {
+    "build": "rm -r ./build; npx truffle build",
+    "compile": "npx truffle compile && cp build/contracts/DeploymentController.json predeployed/deployment_controller_predeployed/artifacts",
+    "lint": "npx ethlint -d contracts",
+    "lint-fix": "npm run lint -- --fix",
+    "predeployed-test": "npx truffle test test/predeployed/* --network skaled",
+    "slither": "slither . --filter-path strings --filter-path Migrations",
+    "version": "node -e \"console.log(require('./package.json').version);\""
+  },
+  "dependencies": {
+    "@openzeppelin/contracts-upgradeable": "^4.3.2"
+  },
+  "devDependencies": {
+    "truffle": "5.1.30"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

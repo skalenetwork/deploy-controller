@@ -1,0 +1,7 @@
+__pycache__
+venv/
+idea/
+dist/
+*.egg-info/
+deployment_controller_predeployed/artifacts/*
+!deployment_controller_predeployed/artifacts/.keep
