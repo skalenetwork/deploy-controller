@@ -20,7 +20,8 @@
     "lint": "npx ethlint -d contracts",
     "lint-fix": "npm run lint -- --fix",
     "predeployed-test": "npx truffle test test/predeployed/* --network skaled",
-    "slither": "slither . --filter-path strings --filter-path Migrations"
+    "slither": "slither . --filter-path strings --filter-path Migrations",
+    "version": "node -e \"console.log(require('./package.json').version);\""
   },
   "dependencies": {
     "@openzeppelin/contracts-upgradeable": "^4.3.2"

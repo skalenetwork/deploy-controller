@@ -1,6 +1,7 @@
 name: Publish
 on:
   pull_request:
+    types: [closed]
     branches:
       - stable
       - develop
@@ -32,7 +33,7 @@ jobs:
           npm run compile
       - name: Calculate versions
         run: |
-          export BRANCH=develop
+          export BRANCH=${GITHUB_REF##*/}
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
           echo "Branch $BRANCH"
       - name: Build
@@ -42,10 +43,10 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Pkg version $VERSION"
           bash ./scripts/build.sh
-#      - name: Publish to pip
-#        working-directory: ./predeployed
-#        run: |
-#          bash ./scripts/publish.sh
+      - name: Publish to pip
+        working-directory: ./predeployed
+        run: |
+          bash ./scripts/publish.sh
 
   github:
     needs: [predeployed]
@@ -60,28 +61,28 @@ jobs:
           npm i
       - name: Calculate versions
         run: |
-          export BRANCH=develop
+          export BRANCH=${GITHUB_REF##*/}
           echo "Branch $BRANCH"
           export GITHUB_VERSION=$(bash ./scripts/calculate_version.sh)
           echo "GITHUB_VERSION=$GITHUB_VERSION" >> $GITHUB_ENV
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
           echo "Release version $GITHUB_VERSION"
-#      - name: Create Release
-#        if: github.ref != 'refs/heads/stable'
-#        uses: actions/create-release@v1
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        with:
-#          tag_name: ${{ env.GITHUB_VERSION }}
-#          release_name: ${{ env.GITHUB_VERSION }}
-#          draft: false
-#          prerelease: true
-#      - name: Create Release (stable)
-#        if: github.ref == 'refs/heads/stable'
-#        uses: actions/create-release@v1
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        with:
-#          tag_name: ${{ env.GITHUB_VERSION }}
-#          release_name: ${{ env.GITHUB_VERSION }}
-#          draft: false
+      - name: Create Release
+        if: github.ref != 'refs/heads/stable'
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.GITHUB_VERSION }}
+          release_name: ${{ env.GITHUB_VERSION }}
+          draft: false
+          prerelease: true
+      - name: Create Release (stable)
+        if: github.ref == 'refs/heads/stable'
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.GITHUB_VERSION }}
+          release_name: ${{ env.GITHUB_VERSION }}
+          draft: false
