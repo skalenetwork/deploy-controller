@@ -34,9 +34,9 @@ setup(
     python_requires='>=3.7,<4',
     extras_require=extras_require,
     keywords=['skale', 'predeployed'],
-    packages=find_packages(),
+    packages=find_packages(exclude=['tests']),
     package_data={
-        'deploy_controller_predeployed': ['artifacts/DeploymentController.json']
+        'deployment_controller_predeployed': ['artifacts/DeploymentController.json']
     },
     setup_requires=["setuptools-markdown"],
     classifiers=[
