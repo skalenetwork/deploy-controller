@@ -36,7 +36,7 @@ setup(
     keywords=['skale', 'predeployed'],
     packages=find_packages(),
     package_data={
-        'deploy_controller_predeployed': ['artifacts/DeploymentController.json']
+        'deployment_controller_predeployed': ['artifacts/DeploymentController.json']
     },
     setup_requires=["setuptools-markdown"],
     classifiers=[
