@@ -34,7 +34,7 @@ setup(
     python_requires='>=3.7,<4',
     extras_require=extras_require,
     keywords=['skale', 'predeployed'],
-    packages=find_packages(),
+    packages=find_packages(exclude=['tests']),
     package_data={
         'deployment_controller_predeployed': ['artifacts/DeploymentController.json']
     },
