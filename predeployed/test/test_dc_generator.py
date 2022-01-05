@@ -146,6 +146,6 @@ class TestEtherbaseGenerator(TestSolidityProject):
                 })
 
             with pytest.raises(web3.exceptions.SolidityError):
-                dc.functions.disbaleMTM().buildTransaction({
+                dc.functions.disableMTM().buildTransaction({
                     'from': '0xD300000000000000000000000000000000000001'
                 })
