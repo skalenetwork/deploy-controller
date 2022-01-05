@@ -18,7 +18,7 @@
 #   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from os.path import dirname, join
-from typing import Dict, List
+from typing import Dict
 
 from web3.auto import w3
 
@@ -44,7 +44,7 @@ class ConfigControllerGenerator(AccessControlEnumerableGenerator):
             dirname(__file__),
             'artifacts',
             self.ARTIFACT_FILENAME))
-        super().__init__(bytecode=generator.bytecode)
+        super().__init__(bytecode=generator.bytecode, abi=generator.abi)
 
     @classmethod
     def _setup_role_admin(
