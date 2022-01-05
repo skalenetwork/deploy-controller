@@ -13,14 +13,14 @@ pip install config-controller-predeployed
 ## Usage example
 
 ```python
-from config_controller_predeployed import (UpgradeableDeploymentControllerGenerator,
+from config_controller_predeployed import (UpgradeableConfigControllerGenerator,
                                            CONFIG_CONTROLLER_ADDRESS,
                                            CONFIG_CONTROLLER_IMPLEMENTATION_ADDRESS)
 
 OWNER_ADDRESS = '0xd200000000000000000000000000000000000000'
 PROXY_ADMIN_ADDRESS = '0xd200000000000000000000000000000000000001'
 
-deployment_generator = UpgradeableDeploymentControllerGenerator()
+deployment_generator = UpgradeableConfigControllerGenerator()
 
 genesis = {
     # genesis block parameters

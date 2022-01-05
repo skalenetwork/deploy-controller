@@ -73,7 +73,7 @@ class ConfigControllerGenerator(AccessControlEnumerableGenerator):
         return storage
 
 
-class UpgradeableDeploymentControllerGenerator(UpgradeableContractGenerator):
+class UpgradeableConfigControllerGenerator(UpgradeableContractGenerator):
     '''Generates upgradeable instance of DeployControllerUpgradeable
     '''
 
