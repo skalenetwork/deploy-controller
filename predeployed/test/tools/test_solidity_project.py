@@ -13,4 +13,4 @@ class TestSolidityProject(TestPredeployed):
 
     @staticmethod
     def get_artifacts_dir():
-        return normpath(join(dirname(__file__), '../../deployment_controller_predeployed/artifacts/'))
+        return normpath(join(dirname(__file__), '../../config_controller_predeployed/artifacts/'))

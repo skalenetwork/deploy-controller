@@ -3,5 +3,6 @@ venv/
 idea/
 dist/
 *.egg-info/
-deployment_controller_predeployed/artifacts/*
-!deployment_controller_predeployed/artifacts/.keep
+.eggs/
+config_controller_predeployed/artifacts/*
+!config_controller_predeployed/artifacts/.keep

@@ -1,6 +1,6 @@
 #   -*- coding: utf-8 -*-
 #
-#   This file is part of deploy-controller
+#   This file is part of config-controller
 #
 #   Copyright (C) 2021-Present SKALE Labs
 #
@@ -18,7 +18,7 @@
 #   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from os.path import dirname, join
-from typing import Dict, List
+from typing import Dict
 
 from web3.auto import w3
 
@@ -27,24 +27,25 @@ from predeployed_generator.openzeppelin.access_control_enumerable_generator \
     import AccessControlEnumerableGenerator
 
 
-class DeploymentControllerGenerator(AccessControlEnumerableGenerator):
-    '''Generates DeploymentController
+class ConfigControllerGenerator(AccessControlEnumerableGenerator):
+    '''Generates ConfigController
     '''
 
-    ARTIFACT_FILENAME = 'DeploymentController.json'
+    ARTIFACT_FILENAME = 'ConfigController.json'
     DEFAULT_ADMIN_ROLE = (0).to_bytes(32, 'big')
     DEPLOYER_ROLE = w3.solidityKeccak(['string'], ['DEPLOYER_ROLE'])
     DEPLOYER_ADMIN_ROLE = w3.solidityKeccak(['string'], ['DEPLOYER_ADMIN_ROLE'])
+    MTM_ADMIN_ROLE = w3.solidityKeccak(['string'], ['MTM_ADMIN_ROLE'])
 
     ROLES_SLOT = 101
     ROLE_MEMBERS_SLOT = 151
 
     def __init__(self):
-        generator = DeploymentControllerGenerator.from_hardhat_artifact(join(
+        generator = ConfigControllerGenerator.from_hardhat_artifact(join(
             dirname(__file__),
             'artifacts',
             self.ARTIFACT_FILENAME))
-        super().__init__(bytecode=generator.bytecode)
+        super().__init__(bytecode=generator.bytecode, abi=generator.abi)
 
     @classmethod
     def _setup_role_admin(
@@ -68,14 +69,15 @@ class DeploymentControllerGenerator(AccessControlEnumerableGenerator):
         roles_slots = cls.RolesSlots(roles=cls.ROLES_SLOT, role_members=cls.ROLE_MEMBERS_SLOT)
         cls._setup_role(storage, roles_slots, cls.DEFAULT_ADMIN_ROLE, [schain_owner])
         cls._setup_role(storage, roles_slots, cls.DEPLOYER_ADMIN_ROLE, [schain_owner])
+        cls._setup_role(storage, roles_slots, cls.MTM_ADMIN_ROLE, [schain_owner])
         cls._setup_role(storage, roles_slots, cls.DEPLOYER_ROLE, [schain_owner])
         cls._setup_role_admin(storage, roles_slots, cls.DEPLOYER_ROLE, cls.DEPLOYER_ADMIN_ROLE)
         return storage
 
 
-class UpgradeableDeploymentControllerGenerator(UpgradeableContractGenerator):
+class UpgradeableConfigControllerGenerator(UpgradeableContractGenerator):
     '''Generates upgradeable instance of DeployControllerUpgradeable
     '''
 
     def __init__(self):
-        super().__init__(implementation_generator=DeploymentControllerGenerator())
+        super().__init__(implementation_generator=ConfigControllerGenerator())

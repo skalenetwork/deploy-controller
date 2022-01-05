@@ -1,2 +1,2 @@
-# deploy-controller
-Predeployed smart contract that manages deployment process
+# config-controller
+Predeployed smart contract that handles sChain configurations

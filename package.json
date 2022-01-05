@@ -1,22 +1,22 @@
 {
-  "name": "@skalenetwork/deploy-controller",
+  "name": "@skalenetwork/config-controller",
   "version": "1.0.0",
-  "description": "deploy-controller",
+  "description": "config-controller",
   "keywords": [
     "SKALE",
     "blockchain",
     "ethereum"
   ],
-  "homepage": "https://github.com/skalenetwork/deploy-controller#readme",
+  "homepage": "https://github.com/skalenetwork/config-controller#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/skalenetwork/deploy-controller.git"
+    "url": "git+https://github.com/skalenetwork/config-controller.git"
   },
   "license": "AGPL-3.0",
   "author": "SKALE Labs and contributors",
   "scripts": {
     "build": "rm -r ./build; npx truffle build",
-    "compile": "npx truffle compile && cp build/contracts/DeploymentController.json predeployed/deployment_controller_predeployed/artifacts",
+    "compile": "npx truffle compile && cp build/contracts/ConfigController.json predeployed/config_controller_predeployed/artifacts",
     "lint": "npx ethlint -d contracts",
     "lint-fix": "npm run lint -- --fix",
     "predeployed-test": "npx truffle test test/predeployed/* --network skaled",

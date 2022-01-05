@@ -11,4 +11,4 @@ twine upload -u $PIP_USERNAME -p $PIP_PASSWORD dist/*
 fi
 
 echo "==================================================================="
-echo "Uploaded to pypi, check at https://pypi.org/project/deployment-controller-predeployed/$VERSION/"
+echo "Uploaded to pypi, check at https://pypi.org/project/config-controller-predeployed/$VERSION/"
