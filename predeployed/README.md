@@ -1,21 +1,21 @@
-# deploy-controller-predeployed
+# config-controller-predeployed
 
 ## Description
 
-A tool for generating predeployed deploy-controller smart contract
+A tool for generating predeployed config-controller smart contract
 
 ## Installation
 
 ```console
-pip install deploy-controller-predeployed
+pip install config-controller-predeployed
 ```
 
 ## Usage example
 
 ```python
-from deployment_controller_predeployed import (UpgradeableDeploymentControllerGenerator,
-                                               CONFIG_CONTROLLER_ADDRESS,
-                                               CONFIG_CONTROLLER_IMPLEMENTATION_ADDRESS)
+from config_controller_predeployed import (UpgradeableDeploymentControllerGenerator,
+                                           CONFIG_CONTROLLER_ADDRESS,
+                                           CONFIG_CONTROLLER_IMPLEMENTATION_ADDRESS)
 
 OWNER_ADDRESS = '0xd200000000000000000000000000000000000000'
 PROXY_ADMIN_ADDRESS = '0xd200000000000000000000000000000000000001'

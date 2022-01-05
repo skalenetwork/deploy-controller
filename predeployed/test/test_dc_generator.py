@@ -4,7 +4,7 @@ import pytest
 import web3.exceptions
 from web3.auto import w3
 
-from deployment_controller_predeployed import ConfigControllerGenerator, CONFIG_CONTROLLER_ADDRESS
+from config_controller_predeployed import ConfigControllerGenerator, CONFIG_CONTROLLER_ADDRESS
 from .tools.test_solidity_project import TestSolidityProject
 
 PRIVATE_KEY = os.environ['ETH_PRIVATE_KEY']

@@ -4,5 +4,5 @@ idea/
 dist/
 *.egg-info/
 .eggs/
-deployment_controller_predeployed/artifacts/*
-!deployment_controller_predeployed/artifacts/.keep
+config_controller_predeployed/artifacts/*
+!config_controller_predeployed/artifacts/.keep
