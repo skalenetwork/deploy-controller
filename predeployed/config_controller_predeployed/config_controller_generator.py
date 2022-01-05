@@ -1,6 +1,6 @@
 #   -*- coding: utf-8 -*-
 #
-#   This file is part of deploy-controller
+#   This file is part of config-controller
 #
 #   Copyright (C) 2021-Present SKALE Labs
 #

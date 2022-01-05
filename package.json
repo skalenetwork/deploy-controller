@@ -7,10 +7,10 @@
     "blockchain",
     "ethereum"
   ],
-  "homepage": "https://github.com/skalenetwork/deploy-controller#readme",
+  "homepage": "https://github.com/skalenetwork/config-controller#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/skalenetwork/deploy-controller.git"
+    "url": "git+https://github.com/skalenetwork/config-controller.git"
   },
   "license": "AGPL-3.0",
   "author": "SKALE Labs and contributors",

@@ -11,4 +11,4 @@ python setup.py sdist
 python setup.py bdist_wheel
 
 echo "==================================================================="
-echo "Done build: deployment-controller-predeployed $VERSION/"
+echo "Done build: config-controller-predeployed $VERSION/"

@@ -20,12 +20,12 @@ from config_controller_predeployed import (UpgradeableConfigControllerGenerator,
 OWNER_ADDRESS = '0xd200000000000000000000000000000000000000'
 PROXY_ADMIN_ADDRESS = '0xd200000000000000000000000000000000000001'
 
-deployment_generator = UpgradeableConfigControllerGenerator()
+config_generator = UpgradeableConfigControllerGenerator()
 
 genesis = {
     # genesis block parameters
     'alloc': {
-        **deployment_generator.generate_allocation(
+        **config_generator.generate_allocation(
             contract_address=CONFIG_CONTROLLER_ADDRESS,
             implementation_address=CONFIG_CONTROLLER_IMPLEMENTATION_ADDRESS,
             schain_owner=OWNER_ADDRESS,

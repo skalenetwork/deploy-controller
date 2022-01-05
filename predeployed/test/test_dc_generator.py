@@ -14,7 +14,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
     OWNER_ADDRESS = w3.eth.account.privateKeyToAccount(PRIVATE_KEY).address
 
     def get_dc_abi(self):
-        return self.get_abi('DeploymentController')
+        return self.get_abi('ConfigController')
 
     def prepare_genesis(self):
         print(self.OWNER_ADDRESS)
