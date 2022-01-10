@@ -6,7 +6,6 @@ on:
       - stable
       - develop
       - beta
-  push:
 
 jobs:
   predeployed:
@@ -47,10 +46,10 @@ jobs:
         run: |
           echo "Pkg version $VERSION"
           bash ./scripts/build.sh
-      # - name: Publish to pip
-      #   working-directory: ./predeployed
-      #   run: |
-      #     bash ./scripts/publish.sh
+      - name: Publish to pip
+        working-directory: ./predeployed
+        run: |
+          bash ./scripts/publish.sh
       - name: Generate ABI
         env:
           VERSION: ${{ env.VERSION }}
