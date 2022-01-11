@@ -41,11 +41,10 @@ jobs:
           echo "PRERELEASE=$PRERELEASE" >> $GITHUB_ENV
       - name: Build
         working-directory: ./predeployed
-        env:
-          VERSION: ${{ env.VERSION }}
         run: |
-          echo "Pkg version $VERSION"
-          bash ./scripts/build.sh
+          export PIP_VERSION=$(bash ./scripts/calculate_version.sh)
+          echo "Pkg version $PIP_VERSION"
+          VERSION=$PIP_VERSION bash ./scripts/build.sh
       - name: Publish to pip
         working-directory: ./predeployed
         run: |
