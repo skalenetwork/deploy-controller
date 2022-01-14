@@ -47,4 +47,8 @@ contract ConfigController is AccessControlEnumerableUpgradeable {
     function isMTMEnabled() external view returns (bool) {
         return multiTransactionMode;
     }
+
+    function isFCDEnabled() external view returns (bool) {
+        return freeContractDeployment;
+    }
 }
