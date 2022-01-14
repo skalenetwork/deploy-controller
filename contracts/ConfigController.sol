@@ -19,6 +19,16 @@ contract ConfigController is AccessControlEnumerableUpgradeable {
         multiTransactionMode = false;
     }
 
+    function enableFreeContractDeployment() external {
+        require(hasRole(DEPLOYER_ADMIN_ROLE, msg.sender), "Caller is not an admin");
+        freeContractDeployment = true;
+    }
+
+    function disableFreeContractDeployment() external {
+        require(hasRole(DEPLOYER_ADMIN_ROLE, msg.sender), "Caller is not an admin");
+        freeContractDeployment = false;
+    }
+
     function addToWhitelist(address addr) external {
         grantRole(DEPLOYER_ROLE, addr);
     }
