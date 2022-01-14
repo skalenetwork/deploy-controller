@@ -149,3 +149,47 @@ class TestEtherbaseGenerator(TestSolidityProject):
                 dc.functions.disableMTM().buildTransaction({
                     'from': '0xD300000000000000000000000000000000000001'
                 })
+
+    def test_enable_and_disable_fcd(self, tmpdir):
+        genesis = self.prepare_genesis()
+
+        with self.run_geth(tmpdir, genesis):
+            assert w3.isConnected()
+
+            dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
+            assert not dc.functions.isMTMEnabled().call()
+
+            tx = dc.functions.enableFreeContractDeployment().buildTransaction({
+                'nonce': w3.eth.getTransactionCount(self.OWNER_ADDRESS),
+                'from': self.OWNER_ADDRESS
+            })
+            signed_tx = w3.eth.account.signTransaction(tx, private_key=PRIVATE_KEY)
+            tx_hash = w3.eth.sendRawTransaction(signed_tx.rawTransaction)
+            w3.eth.waitForTransactionReceipt(tx_hash)
+            assert dc.functions.isFCDEnabled().call()
+
+            tx = dc.functions.disableFreeContractDeployment().buildTransaction({
+                'nonce': w3.eth.getTransactionCount(self.OWNER_ADDRESS),
+                'from': self.OWNER_ADDRESS
+            })
+            signed_tx = w3.eth.account.signTransaction(tx, private_key=PRIVATE_KEY)
+            tx_hash = w3.eth.sendRawTransaction(signed_tx.rawTransaction)
+            w3.eth.waitForTransactionReceipt(tx_hash)
+            assert not dc.functions.isFCDEnabled().call()
+
+    def test_enable_and_disable_fcd_failed(self, tmpdir):
+        genesis = self.prepare_genesis()
+
+        with self.run_geth(tmpdir, genesis):
+            assert w3.isConnected()
+            dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
+
+            with pytest.raises(web3.exceptions.SolidityError):
+                dc.functions.enableFreeContractDeployment().buildTransaction({
+                    'from': '0xD300000000000000000000000000000000000001'
+                })
+
+            with pytest.raises(web3.exceptions.SolidityError):
+                dc.functions.disableFreeContractDeployment().buildTransaction({
+                    'from': '0xD300000000000000000000000000000000000001'
+                })
