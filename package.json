@@ -27,7 +27,7 @@
     "@openzeppelin/contracts-upgradeable": "^4.3.2"
   },
   "devDependencies": {
-    "truffle": "5.1.30"
+    "truffle": "5.5.5"
   },
   "publishConfig": {
     "access": "public"
