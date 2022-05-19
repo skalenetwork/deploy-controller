@@ -23,7 +23,6 @@ setup(
     name='config-controller-predeployed',
     version='1.0.0',
     description='A tool for generating predeployed config controller smart contract',
-    long_description_markdown_filename='README.md',
     long_description_content_type="text/markdown",
     author='SKALE Labs',
     author_email='support@skalelabs.com',
