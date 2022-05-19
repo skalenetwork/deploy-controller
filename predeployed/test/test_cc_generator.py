@@ -89,7 +89,8 @@ class TestEtherbaseGenerator(TestSolidityProject):
 
         with self.run_geth(tmpdir, genesis):
             assert w3.isConnected()
-            w3.middleware_onion.inject(geth_poa_middleware, layer=0)
+            if not w3.middleware_onion.get(geth_poa_middleware):
+                w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
             dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
             tx = dc.functions.addToWhitelist('0xD300000000000000000000000000000000000001').buildTransaction({
@@ -107,7 +108,8 @@ class TestEtherbaseGenerator(TestSolidityProject):
 
         with self.run_geth(tmpdir, genesis):
             assert w3.isConnected()
-            w3.middleware_onion.inject(geth_poa_middleware, layer=0)
+            if not w3.middleware_onion.get(geth_poa_middleware):
+                w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
             dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
             with pytest.raises(web3.exceptions.SolidityError):
@@ -121,7 +123,8 @@ class TestEtherbaseGenerator(TestSolidityProject):
 
         with self.run_geth(tmpdir, genesis):
             assert w3.isConnected()
-            w3.middleware_onion.inject(geth_poa_middleware, layer=0)
+            if not w3.middleware_onion.get(geth_poa_middleware):
+                w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
             dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
             assert not dc.functions.isMTMEnabled().call()
@@ -150,7 +153,9 @@ class TestEtherbaseGenerator(TestSolidityProject):
 
         with self.run_geth(tmpdir, genesis):
             assert w3.isConnected()
-            w3.middleware_onion.inject(geth_poa_middleware, layer=0)
+            if not w3.middleware_onion.get(geth_poa_middleware):
+                w3.middleware_onion.inject(geth_poa_middleware, layer=0)
+
             dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
 
             with pytest.raises(web3.exceptions.SolidityError):
@@ -169,7 +174,8 @@ class TestEtherbaseGenerator(TestSolidityProject):
 
         with self.run_geth(tmpdir, genesis):
             assert w3.isConnected()
-            w3.middleware_onion.inject(geth_poa_middleware, layer=0)
+            if not w3.middleware_onion.get(geth_poa_middleware):
+                w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
             dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
             assert not dc.functions.isMTMEnabled().call()
@@ -198,7 +204,8 @@ class TestEtherbaseGenerator(TestSolidityProject):
 
         with self.run_geth(tmpdir, genesis):
             assert w3.isConnected()
-            w3.middleware_onion.inject(geth_poa_middleware, layer=0)
+            if not w3.middleware_onion.get(geth_poa_middleware):
+                w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
             dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
 
