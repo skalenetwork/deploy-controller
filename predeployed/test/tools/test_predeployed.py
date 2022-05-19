@@ -47,6 +47,7 @@ class TestPredeployed:
                 }
             })
             genesis['alloc'].update(allocations)
+            genesis['extradata'] = self.generate_extradata()
             return genesis
 
     def run_geth(self, tmpdir, genesis):
