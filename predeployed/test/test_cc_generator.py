@@ -29,6 +29,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
         )
 
     def test_default_admin_role(self, tmpdir):
+        self.datadir = tmpdir
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
@@ -41,6 +42,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
             assert dc.functions.hasRole(ConfigControllerGenerator.DEFAULT_ADMIN_ROLE, self.OWNER_ADDRESS).call()
 
     def test_deployer_role(self, tmpdir):
+        self.datadir = tmpdir
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
@@ -55,6 +57,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
             assert dc.functions.hasRole(ConfigControllerGenerator.DEPLOYER_ROLE, self.OWNER_ADDRESS).call()
 
     def test_deployer_admin_role(self, tmpdir):
+        self.datadir = tmpdir
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
@@ -67,6 +70,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
             assert dc.functions.hasRole(ConfigControllerGenerator.DEPLOYER_ADMIN_ROLE, self.OWNER_ADDRESS).call()
 
     def test_mtm_admin_role(self, tmpdir):
+        self.datadir = tmpdir
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
@@ -79,6 +83,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
             assert dc.functions.hasRole(ConfigControllerGenerator.MTM_ADMIN_ROLE, self.OWNER_ADDRESS).call()
 
     def test_add_whitelist(self, tmpdir):
+        self.datadir = tmpdir
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
@@ -95,6 +100,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
             assert dc.functions.isAddressWhitelisted('0xD300000000000000000000000000000000000001').call()
 
     def test_add_whitelist_failed(self, tmpdir):
+        self.datadir = tmpdir
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
@@ -107,6 +113,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
                 })
 
     def test_enable_and_disable_mtm(self, tmpdir):
+        self.datadir = tmpdir
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
@@ -134,6 +141,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
             assert not dc.functions.isMTMEnabled().call()
 
     def test_enable_and_disable_mtm_failed(self, tmpdir):
+        self.datadir = tmpdir
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
@@ -151,6 +159,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
                 })
 
     def test_enable_and_disable_fcd(self, tmpdir):
+        self.datadir = tmpdir
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
@@ -178,6 +187,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
             assert not dc.functions.isFCDEnabled().call()
 
     def test_enable_and_disable_fcd_failed(self, tmpdir):
+        self.datadir = tmpdir
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
