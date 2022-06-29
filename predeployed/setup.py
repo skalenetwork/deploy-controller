@@ -35,7 +35,10 @@ setup(
     keywords=['skale', 'predeployed'],
     packages=find_packages(exclude=['tests']),
     package_data={
-        'config_controller_predeployed': ['artifacts/ConfigController.json']
+        'config_controller_predeployed': [
+            'artifacts/ConfigController.json',
+            'artifacts/ConfigController.meta.json'
+        ]
     },
     setup_requires=["setuptools-markdown"],
     classifiers=[
