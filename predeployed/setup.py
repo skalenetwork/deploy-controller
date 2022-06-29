@@ -28,7 +28,7 @@ setup(
     author_email='support@skalelabs.com',
     url='https://github.com/skalenetwork/config-controller',
     install_requires=[
-        "predeployed-generator >= 0.0.1a4"
+        "predeployed-generator >= 1.1.0a0"
     ],
     python_requires='>=3.7,<4',
     extras_require=extras_require,

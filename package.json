@@ -16,7 +16,6 @@
   "author": "SKALE Labs and contributors",
   "scripts": {
     "compile": "npx hardhat clean && npx hardhat compile",
-    "build": "rm -r ./build; npx truffle build",
     "lint": "npx ethlint -d contracts",
     "lint-fix": "npm run lint -- --fix",
     "slither": "slither . --filter-path strings --filter-path Migrations",
