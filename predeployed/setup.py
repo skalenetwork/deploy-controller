@@ -21,7 +21,7 @@ extras_require['dev'] = (
 
 setup(
     name='config-controller-predeployed',
-    version='1.0.0',
+    version='1.0.1',
     description='A tool for generating predeployed config controller smart contract',
     long_description_content_type="text/markdown",
     author='SKALE Labs',
