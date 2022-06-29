@@ -1,6 +1,6 @@
 {
   "name": "@skalenetwork/config-controller",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "config-controller",
   "keywords": [
     "SKALE",
@@ -17,10 +17,8 @@
   "scripts": {
     "compile": "npx hardhat clean && npx hardhat compile",
     "build": "rm -r ./build; npx truffle build",
-    "compile1": "npx truffle compile && cp build/contracts/ConfigController.json predeployed/config_controller_predeployed/artifacts",
     "lint": "npx ethlint -d contracts",
     "lint-fix": "npm run lint -- --fix",
-    "predeployed-test": "npx truffle test test/predeployed/* --network skaled",
     "slither": "slither . --filter-path strings --filter-path Migrations",
     "version": "node -e \"console.log(require('./package.json').version);\""
   },

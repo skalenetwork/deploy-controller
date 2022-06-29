@@ -1,16 +1,18 @@
 import json
+import shutil
 from os.path import normpath, join, dirname
 
 name = 'ConfigController'
-artifacts_path = normpath(join(dirname(__file__), '../../artifacts/'))
-package_artifacts_path = normpath(join(dirname(__file__), '../config_controller_predeployed/artifacts'))
+pkg_name = 'config_controller_predeployed'
+
+artifacts_dir = normpath(join(dirname(__file__), '../../artifacts/', 'contracts', f'{name}.sol'))
+package_artifacts_path = normpath(join(dirname(__file__), f'../{pkg_name}/artifacts'))
 
 
 def get_build_info_path():
-    dbg_path = join(artifacts_path, 'contracts', f'{name}.sol')
-    with open(join(dbg_path, f'{name}.dbg.json')) as dbg_file:
+    with open(join(artifacts_dir, f'{name}.dbg.json')) as dbg_file:
         dbg = json.loads(dbg_file.read())
-        return normpath(join(dbg_path, dbg['buildInfo']))
+        return normpath(join(artifacts_dir, dbg['buildInfo']))
 
 
 def main():
@@ -25,6 +27,7 @@ def main():
         }
     with open(join(package_artifacts_path, f'{name}.meta.json'), 'w') as meta:
         meta.write(json.dumps(meta_data, indent=4))
+    shutil.copy(join(artifacts_dir, f'{name}.json'), package_artifacts_path)
 
 
 if __name__ == '__main__':
