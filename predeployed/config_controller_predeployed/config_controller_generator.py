@@ -32,6 +32,7 @@ class ConfigControllerGenerator(AccessControlEnumerableGenerator):
     '''
 
     ARTIFACT_FILENAME = 'ConfigController.json'
+    META_FILENAME = 'ConfigController.meta.json'
     DEFAULT_ADMIN_ROLE = (0).to_bytes(32, 'big')
     DEPLOYER_ROLE = w3.solidityKeccak(['string'], ['DEPLOYER_ROLE'])
     DEPLOYER_ADMIN_ROLE = w3.solidityKeccak(['string'], ['DEPLOYER_ADMIN_ROLE'])
@@ -41,11 +42,10 @@ class ConfigControllerGenerator(AccessControlEnumerableGenerator):
     ROLE_MEMBERS_SLOT = 151
 
     def __init__(self):
-        generator = ConfigControllerGenerator.from_hardhat_artifact(join(
-            dirname(__file__),
-            'artifacts',
-            self.ARTIFACT_FILENAME))
-        super().__init__(bytecode=generator.bytecode, abi=generator.abi)
+        generator = ConfigControllerGenerator.from_hardhat_artifact(
+            join(dirname(__file__), 'artifacts', self.ARTIFACT_FILENAME),
+            join(dirname(__file__), 'artifacts', self.META_FILENAME))
+        super().__init__(bytecode=generator.bytecode, abi=generator.abi, meta=generator.meta)
 
     @classmethod
     def _setup_role_admin(

@@ -32,7 +32,6 @@ class TestEtherbaseGenerator(TestSolidityProject):
     def test_default_admin_role(self, tmpdir):
         self.datadir = tmpdir
         genesis = self.prepare_genesis()
-
         with self.run_geth(tmpdir, genesis):
             assert w3.isConnected()
 
