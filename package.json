@@ -15,8 +15,9 @@
   "license": "AGPL-3.0",
   "author": "SKALE Labs and contributors",
   "scripts": {
+    "compile": "npx hardhat clean && npx hardhat compile",
     "build": "rm -r ./build; npx truffle build",
-    "compile": "npx truffle compile && cp build/contracts/ConfigController.json predeployed/config_controller_predeployed/artifacts",
+    "compile1": "npx truffle compile && cp build/contracts/ConfigController.json predeployed/config_controller_predeployed/artifacts",
     "lint": "npx ethlint -d contracts",
     "lint-fix": "npm run lint -- --fix",
     "predeployed-test": "npx truffle test test/predeployed/* --network skaled",
@@ -27,7 +28,9 @@
     "@openzeppelin/contracts-upgradeable": "^4.3.2"
   },
   "devDependencies": {
-    "truffle": "5.1.30"
+      "hardhat": "^2.6.4",
+      "ts-node": "^10.2.1",
+      "typescript": "^4.4.3"
   },
   "publishConfig": {
     "access": "public"
