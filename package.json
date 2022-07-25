@@ -22,7 +22,7 @@
     "version": "node -e \"console.log(require('./package.json').version);\""
   },
   "dependencies": {
-    "@openzeppelin/contracts-upgradeable": "^4.3.2"
+    "@openzeppelin/contracts-upgradeable": "^4.7.1"
   },
   "devDependencies": {
       "hardhat": "^2.6.4",
