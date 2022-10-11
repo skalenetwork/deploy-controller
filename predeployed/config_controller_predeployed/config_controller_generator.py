@@ -38,8 +38,35 @@ class ConfigControllerGenerator(AccessControlEnumerableGenerator):
     DEPLOYER_ADMIN_ROLE = w3.solidityKeccak(['string'], ['DEPLOYER_ADMIN_ROLE'])
     MTM_ADMIN_ROLE = w3.solidityKeccak(['string'], ['MTM_ADMIN_ROLE'])
 
+    # ---------- storage ----------
+    # --------Initializable--------
+    # 0:    _initialized, _initializing;
+    # -----ContextUpgradeable------
+    # 1:    __gap
+    # ...   __gap
+    # 50:   __gap
+    # ------ERC165Upgradeable------
+    # 51:   __gap
+    # ...   __gap
+    # 100:  __gap
+    # --AccessControlUpgradeable---
+    # 101:  _roles
+    # 102:  __gap
+    # ...   __gap
+    # 150:  __gap
+    # AccessControlEnumerableUpgradeable
+    # 151:  _roleMembers
+    # 152:  __gap
+    # ...   __gap
+    # 200:  __gap
+    # ---------TokenManager---------
+    # 201:  multiTransactionMode
+    # 202:  freeContractDeployment
+    # 203:  version
+
     ROLES_SLOT = 101
     ROLE_MEMBERS_SLOT = 151
+    VERSION_SLOT = 203
 
     def __init__(self):
         generator = ConfigControllerGenerator.from_hardhat_artifact(
@@ -65,6 +92,7 @@ class ConfigControllerGenerator(AccessControlEnumerableGenerator):
     @classmethod
     def generate_storage(cls, **kwargs) -> Dict[str, str]:
         schain_owner = kwargs['schain_owner']
+        version = kwargs['version']
         storage: Dict[str, str] = {}
         roles_slots = cls.RolesSlots(roles=cls.ROLES_SLOT, role_members=cls.ROLE_MEMBERS_SLOT)
         cls._setup_role(storage, roles_slots, cls.DEFAULT_ADMIN_ROLE, [schain_owner])
@@ -72,6 +100,7 @@ class ConfigControllerGenerator(AccessControlEnumerableGenerator):
         cls._setup_role(storage, roles_slots, cls.MTM_ADMIN_ROLE, [schain_owner])
         cls._setup_role(storage, roles_slots, cls.DEPLOYER_ROLE, [schain_owner])
         cls._setup_role_admin(storage, roles_slots, cls.DEPLOYER_ROLE, cls.DEPLOYER_ADMIN_ROLE)
+        cls._write_string(storage, cls.VERSION_SLOT, version)
         return storage
 
 
