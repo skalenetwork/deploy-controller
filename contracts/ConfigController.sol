@@ -8,6 +8,7 @@ contract ConfigController is AccessControlEnumerableUpgradeable {
     bytes32 public constant MTM_ADMIN_ROLE = keccak256("MTM_ADMIN_ROLE");
     bool multiTransactionMode;
     bool freeContractDeployment;
+    string public version;
 
     function enableMTM() external {
         require(hasRole(MTM_ADMIN_ROLE, msg.sender), "Caller is not an admin");
@@ -39,6 +40,11 @@ contract ConfigController is AccessControlEnumerableUpgradeable {
 
     function removeFromWhitelist(address addr) external {
         revokeRole(DEPLOYER_ROLE, addr);
+    }
+
+    function setVersion(string _version) external {
+        require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), "Caller is not an admin");
+        version = _version;
     }
 
     function isAddressWhitelisted(address addr) external view returns (bool) {
