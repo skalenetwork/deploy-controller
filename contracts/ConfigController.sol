@@ -42,7 +42,7 @@ contract ConfigController is AccessControlEnumerableUpgradeable {
         revokeRole(DEPLOYER_ROLE, addr);
     }
 
-    function setVersion(string _version) external {
+    function setVersion(string memory _version) external {
         require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), "Caller is not an admin");
         version = _version;
     }
