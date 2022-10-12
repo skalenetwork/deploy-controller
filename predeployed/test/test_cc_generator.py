@@ -25,8 +25,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
             owner=self.OWNER_ADDRESS,
             allocations=dc_generator.generate_allocation(
                 CONFIG_CONTROLLER_ADDRESS,
-                schain_owner=self.OWNER_ADDRESS,
-                version='1.0.0'
+                schain_owner=self.OWNER_ADDRESS
             )
         )
 
@@ -41,7 +40,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
             assert dc.functions.getRoleMember(ConfigControllerGenerator.DEFAULT_ADMIN_ROLE,
                                               0).call() == self.OWNER_ADDRESS
             assert dc.functions.hasRole(ConfigControllerGenerator.DEFAULT_ADMIN_ROLE, self.OWNER_ADDRESS).call()
-            assert dc.functions.version().call() == '1.0.0'
+            assert dc.functions.version().call() == '1.0.1'
 
     def test_deployer_role(self, tmpdir):
         self.datadir = tmpdir
