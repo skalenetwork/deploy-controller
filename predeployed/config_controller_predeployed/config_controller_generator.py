@@ -19,7 +19,7 @@
 
 from os.path import dirname, join
 from typing import Dict
-
+from pkg_resources import get_distribution
 from web3.auto import w3
 
 from predeployed_generator.upgradeable_contract_generator import UpgradeableContractGenerator
@@ -32,20 +32,48 @@ class ConfigControllerGenerator(AccessControlEnumerableGenerator):
     '''
 
     ARTIFACT_FILENAME = 'ConfigController.json'
+    META_FILENAME = 'ConfigController.meta.json'
     DEFAULT_ADMIN_ROLE = (0).to_bytes(32, 'big')
     DEPLOYER_ROLE = w3.solidityKeccak(['string'], ['DEPLOYER_ROLE'])
     DEPLOYER_ADMIN_ROLE = w3.solidityKeccak(['string'], ['DEPLOYER_ADMIN_ROLE'])
     MTM_ADMIN_ROLE = w3.solidityKeccak(['string'], ['MTM_ADMIN_ROLE'])
 
+    # ---------- storage ----------
+    # --------Initializable--------
+    # 0:    _initialized, _initializing;
+    # -----ContextUpgradeable------
+    # 1:    __gap
+    # ...   __gap
+    # 50:   __gap
+    # ------ERC165Upgradeable------
+    # 51:   __gap
+    # ...   __gap
+    # 100:  __gap
+    # --AccessControlUpgradeable---
+    # 101:  _roles
+    # 102:  __gap
+    # ...   __gap
+    # 150:  __gap
+    # AccessControlEnumerableUpgradeable
+    # 151:  _roleMembers
+    # 152:  __gap
+    # ...   __gap
+    # 200:  __gap
+    # ---------TokenManager---------
+    # 201:  multiTransactionMode, freeContractDeployment
+    # 202:  version
+
     ROLES_SLOT = 101
     ROLE_MEMBERS_SLOT = 151
+    MTM_SLOT = 201
+    FCD_SLOT = MTM_SLOT
+    VERSION_SLOT = AccessControlEnumerableGenerator.next_slot(FCD_SLOT)
 
     def __init__(self):
-        generator = ConfigControllerGenerator.from_hardhat_artifact(join(
-            dirname(__file__),
-            'artifacts',
-            self.ARTIFACT_FILENAME))
-        super().__init__(bytecode=generator.bytecode, abi=generator.abi)
+        generator = ConfigControllerGenerator.from_hardhat_artifact(
+            join(dirname(__file__), 'artifacts', self.ARTIFACT_FILENAME),
+            join(dirname(__file__), 'artifacts', self.META_FILENAME))
+        super().__init__(bytecode=generator.bytecode, abi=generator.abi, meta=generator.meta)
 
     @classmethod
     def _setup_role_admin(
@@ -72,6 +100,8 @@ class ConfigControllerGenerator(AccessControlEnumerableGenerator):
         cls._setup_role(storage, roles_slots, cls.MTM_ADMIN_ROLE, [schain_owner])
         cls._setup_role(storage, roles_slots, cls.DEPLOYER_ROLE, [schain_owner])
         cls._setup_role_admin(storage, roles_slots, cls.DEPLOYER_ROLE, cls.DEPLOYER_ADMIN_ROLE)
+        cls._write_string(storage, cls.VERSION_SLOT,
+                          get_distribution('config_controller_predeployed').version)
         return storage
 
 

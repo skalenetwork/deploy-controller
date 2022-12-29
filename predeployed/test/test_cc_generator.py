@@ -32,7 +32,6 @@ class TestEtherbaseGenerator(TestSolidityProject):
     def test_default_admin_role(self, tmpdir):
         self.datadir = tmpdir
         genesis = self.prepare_genesis()
-
         with self.run_geth(tmpdir, genesis):
             assert w3.isConnected()
 
@@ -41,6 +40,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
             assert dc.functions.getRoleMember(ConfigControllerGenerator.DEFAULT_ADMIN_ROLE,
                                               0).call() == self.OWNER_ADDRESS
             assert dc.functions.hasRole(ConfigControllerGenerator.DEFAULT_ADMIN_ROLE, self.OWNER_ADDRESS).call()
+            assert dc.functions.version().call() == '1.0.1'
 
     def test_deployer_role(self, tmpdir):
         self.datadir = tmpdir

@@ -14,14 +14,15 @@ jobs:
           node-version: 14
       - name: Install dependencies
         run: |
-          npm i
+          yarn install
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-      - name: Compile with truffle
+      - name: Compile and generate artifacts
         run: |
           npm run compile
+          python predeployed/scripts/generate_artifacts.py
       - name: Install geth
         run: |
           sudo add-apt-repository -y ppa:ethereum/ethereum
