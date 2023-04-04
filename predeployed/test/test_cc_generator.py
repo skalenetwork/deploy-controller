@@ -33,7 +33,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
         self.datadir = tmpdir
         genesis = self.prepare_genesis()
         with self.run_geth(tmpdir, genesis):
-            assert w3.isConnected()
+            assert w3.is_connected()
 
             dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
             assert dc.functions.getRoleMemberCount(ConfigControllerGenerator.DEFAULT_ADMIN_ROLE).call() == 1
@@ -47,7 +47,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
-            assert w3.isConnected()
+            assert w3.is_connected()
 
             dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
             assert dc.functions.getRoleMemberCount(ConfigControllerGenerator.DEPLOYER_ROLE).call() == 1
@@ -62,7 +62,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
-            assert w3.isConnected()
+            assert w3.is_connected()
 
             dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
             assert dc.functions.getRoleMemberCount(ConfigControllerGenerator.DEPLOYER_ADMIN_ROLE).call() == 1
@@ -75,7 +75,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
-            assert w3.isConnected()
+            assert w3.is_connected()
 
             dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
             assert dc.functions.getRoleMemberCount(ConfigControllerGenerator.MTM_ADMIN_ROLE).call() == 1
@@ -88,7 +88,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
-            assert w3.isConnected()
+            assert w3.is_connected()
             if not w3.middleware_onion.get(geth_poa_middleware):
                 w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
@@ -107,7 +107,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
-            assert w3.isConnected()
+            assert w3.is_connected()
             if not w3.middleware_onion.get(geth_poa_middleware):
                 w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
@@ -122,7 +122,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
-            assert w3.isConnected()
+            assert w3.is_connected()
             if not w3.middleware_onion.get(geth_poa_middleware):
                 w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
@@ -152,7 +152,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
-            assert w3.isConnected()
+            assert w3.is_connected()
             if not w3.middleware_onion.get(geth_poa_middleware):
                 w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
@@ -173,7 +173,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
-            assert w3.isConnected()
+            assert w3.is_connected()
             if not w3.middleware_onion.get(geth_poa_middleware):
                 w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
@@ -203,7 +203,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
-            assert w3.isConnected()
+            assert w3.is_connected()
             if not w3.middleware_onion.get(geth_poa_middleware):
                 w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
