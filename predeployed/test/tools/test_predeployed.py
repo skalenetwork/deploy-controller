@@ -1,7 +1,6 @@
 import json
 import subprocess
 import os
-import time
 import random
 import string
 
@@ -31,8 +30,7 @@ class TestPredeployed:
         process = subprocess.run(['geth', 'account', 'new', '--datadir', self.datadir, '--password', password_filename])
         assert process.returncode == 0
 
-        process = subprocess.Popen(['geth', 'account', 'list', '--datadir', self.datadir], stdout=subprocess.PIPE,
-                                   universal_newlines=True)
+        process = subprocess.Popen(['geth', 'account', 'list', '--datadir', self.datadir], stdout=subprocess.PIPE, universal_newlines=True)
         account0 = process.stdout.readline()
         address = account0.split()[2][1:-1]
         return '0x' + '00' * 32 + address + '00' * 65
@@ -59,14 +57,8 @@ class TestPredeployed:
         process = subprocess.run(['geth', '--datadir', tmpdir, 'init', genesis_filename], capture_output=True)
         assert process.returncode == 0
 
-        self.geth = subprocess.Popen(['geth', '--datadir', tmpdir, '--http', '--mine',
-                                      '--http.api', 'personal,eth,net,web3,txpool,miner'],
-                                     stderr=subprocess.PIPE, universal_newlines=True)
-        time.sleep(5)
-
-        # mine blocks
-        subprocess.Popen(['curl', '-d', '{"method": "miner_start"}', '-H', 'Content-type: application/json',
-                          'http://127.0.0.1:8545'])
+        # run geth
+        self.geth = subprocess.Popen(['geth', '--datadir', tmpdir, '--http'], stderr=subprocess.PIPE, universal_newlines=True)
 
         while True:
             assert self.geth.poll() is None

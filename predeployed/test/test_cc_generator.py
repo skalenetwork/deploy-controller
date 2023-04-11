@@ -13,7 +13,7 @@ PRIVATE_KEY = os.environ['ETH_PRIVATE_KEY']
 
 
 class TestEtherbaseGenerator(TestSolidityProject):
-    OWNER_ADDRESS = Account.from_key(bytes.fromhex(PRIVATE_KEY[2:])).address
+    OWNER_ADDRESS = Account.from_key(bytes.fromhex(PRIVATE_KEY)).address
 
     def get_dc_abi(self):
         return self.get_abi('ConfigController')
@@ -113,7 +113,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
                 w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
             dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
-            with pytest.raises(web3.exceptions.SolidityError):
+            with pytest.raises(web3.exceptions.ContractLogicError):
                 dc.functions.addToWhitelist('0xD300000000000000000000000000000000000001').buildTransaction({
                     'from': '0xD300000000000000000000000000000000000001'
                 })
@@ -159,12 +159,12 @@ class TestEtherbaseGenerator(TestSolidityProject):
 
             dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
 
-            with pytest.raises(web3.exceptions.SolidityError):
+            with pytest.raises(web3.exceptions.ContractLogicError):
                 dc.functions.enableMTM().buildTransaction({
                     'from': '0xD300000000000000000000000000000000000001'
                 })
 
-            with pytest.raises(web3.exceptions.SolidityError):
+            with pytest.raises(web3.exceptions.ContractLogicError):
                 dc.functions.disableMTM().buildTransaction({
                     'from': '0xD300000000000000000000000000000000000001'
                 })
@@ -210,12 +210,12 @@ class TestEtherbaseGenerator(TestSolidityProject):
 
             dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
 
-            with pytest.raises(web3.exceptions.SolidityError):
+            with pytest.raises(web3.exceptions.ContractLogicError):
                 dc.functions.enableFreeContractDeployment().buildTransaction({
                     'from': '0xD300000000000000000000000000000000000001'
                 })
 
-            with pytest.raises(web3.exceptions.SolidityError):
+            with pytest.raises(web3.exceptions.ContractLogicError):
                 dc.functions.disableFreeContractDeployment().buildTransaction({
                     'from': '0xD300000000000000000000000000000000000001'
                 })
