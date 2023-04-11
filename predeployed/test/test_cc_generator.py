@@ -3,6 +3,7 @@ import os
 import pytest
 import web3.exceptions
 from web3.auto import w3
+from web3 import Account
 from web3.middleware import geth_poa_middleware
 
 from config_controller_predeployed import ConfigControllerGenerator, CONFIG_CONTROLLER_ADDRESS
@@ -12,7 +13,7 @@ PRIVATE_KEY = os.environ['ETH_PRIVATE_KEY']
 
 
 class TestEtherbaseGenerator(TestSolidityProject):
-    OWNER_ADDRESS = w3.eth.account.privateKeyToAccount(PRIVATE_KEY).address
+    OWNER_ADDRESS = Account.from_key(bytes.fromhex(PRIVATE_KEY[2:])).address
 
     def get_dc_abi(self):
         return self.get_abi('ConfigController')
