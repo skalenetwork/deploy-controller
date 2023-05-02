@@ -13,7 +13,7 @@ PRIVATE_KEY = os.environ['ETH_PRIVATE_KEY']
 
 
 class TestEtherbaseGenerator(TestSolidityProject):
-    OWNER_ADDRESS = Account.from_key(bytes.fromhex(PRIVATE_KEY)).address
+    OWNER_ADDRESS = Account.from_key(bytes.fromhex(PRIVATE_KEY[2:])).address
 
     def get_dc_abi(self):
         return self.get_abi('ConfigController')
