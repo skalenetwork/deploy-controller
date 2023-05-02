@@ -19,7 +19,6 @@ class TestEtherbaseGenerator(TestSolidityProject):
         return self.get_abi('ConfigController')
 
     def prepare_genesis(self):
-        print(self.OWNER_ADDRESS)
         dc_generator = ConfigControllerGenerator()
 
         return self.generate_genesis(
@@ -94,13 +93,14 @@ class TestEtherbaseGenerator(TestSolidityProject):
                 w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
             dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
-            tx = dc.functions.addToWhitelist('0xD300000000000000000000000000000000000001').buildTransaction({
-                'nonce': w3.eth.getTransactionCount(self.OWNER_ADDRESS),
+            print("here")
+            tx = dc.functions.addToWhitelist('0xD300000000000000000000000000000000000001').build_transaction({
+                'nonce': w3.eth.get_transaction_count(self.OWNER_ADDRESS),
                 'from': self.OWNER_ADDRESS
             })
-            signed_tx = w3.eth.account.signTransaction(tx, private_key=PRIVATE_KEY)
-            tx_hash = w3.eth.sendRawTransaction(signed_tx.rawTransaction)
-            w3.eth.waitForTransactionReceipt(tx_hash)
+            signed_tx = w3.eth.account.sign_transaction(tx, private_key=PRIVATE_KEY)
+            tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
+            w3.eth.wait_for_transaction_receipt(tx_hash)
             assert dc.functions.isAddressWhitelisted('0xD300000000000000000000000000000000000001').call()
 
     def test_add_whitelist_failed(self, tmpdir):
@@ -114,7 +114,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
 
             dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
             with pytest.raises(web3.exceptions.ContractLogicError):
-                dc.functions.addToWhitelist('0xD300000000000000000000000000000000000001').buildTransaction({
+                dc.functions.addToWhitelist('0xD300000000000000000000000000000000000001').build_transaction({
                     'from': '0xD300000000000000000000000000000000000001'
                 })
 
@@ -130,22 +130,22 @@ class TestEtherbaseGenerator(TestSolidityProject):
             dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
             assert not dc.functions.isMTMEnabled().call()
 
-            tx = dc.functions.enableMTM().buildTransaction({
-                'nonce': w3.eth.getTransactionCount(self.OWNER_ADDRESS),
+            tx = dc.functions.enableMTM().build_transaction({
+                'nonce': w3.eth.get_transaction_count(self.OWNER_ADDRESS),
                 'from': self.OWNER_ADDRESS
             })
-            signed_tx = w3.eth.account.signTransaction(tx, private_key=PRIVATE_KEY)
-            tx_hash = w3.eth.sendRawTransaction(signed_tx.rawTransaction)
-            w3.eth.waitForTransactionReceipt(tx_hash)
+            signed_tx = w3.eth.account.sign_transaction(tx, private_key=PRIVATE_KEY)
+            tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
+            w3.eth.wait_for_transaction_receipt(tx_hash)
             assert dc.functions.isMTMEnabled().call()
 
-            tx = dc.functions.disableMTM().buildTransaction({
-                'nonce': w3.eth.getTransactionCount(self.OWNER_ADDRESS),
+            tx = dc.functions.disableMTM().build_transaction({
+                'nonce': w3.eth.get_transaction_count(self.OWNER_ADDRESS),
                 'from': self.OWNER_ADDRESS
             })
-            signed_tx = w3.eth.account.signTransaction(tx, private_key=PRIVATE_KEY)
-            tx_hash = w3.eth.sendRawTransaction(signed_tx.rawTransaction)
-            w3.eth.waitForTransactionReceipt(tx_hash)
+            signed_tx = w3.eth.account.sign_transaction(tx, private_key=PRIVATE_KEY)
+            tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
+            w3.eth.wait_for_transaction_receipt(tx_hash)
             assert not dc.functions.isMTMEnabled().call()
 
     def test_enable_and_disable_mtm_failed(self, tmpdir):
@@ -160,12 +160,12 @@ class TestEtherbaseGenerator(TestSolidityProject):
             dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
 
             with pytest.raises(web3.exceptions.ContractLogicError):
-                dc.functions.enableMTM().buildTransaction({
+                dc.functions.enableMTM().build_transaction({
                     'from': '0xD300000000000000000000000000000000000001'
                 })
 
             with pytest.raises(web3.exceptions.ContractLogicError):
-                dc.functions.disableMTM().buildTransaction({
+                dc.functions.disableMTM().build_transaction({
                     'from': '0xD300000000000000000000000000000000000001'
                 })
 
@@ -181,22 +181,22 @@ class TestEtherbaseGenerator(TestSolidityProject):
             dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
             assert not dc.functions.isMTMEnabled().call()
 
-            tx = dc.functions.enableFreeContractDeployment().buildTransaction({
-                'nonce': w3.eth.getTransactionCount(self.OWNER_ADDRESS),
+            tx = dc.functions.enableFreeContractDeployment().build_transaction({
+                'nonce': w3.eth.get_transaction_count(self.OWNER_ADDRESS),
                 'from': self.OWNER_ADDRESS
             })
-            signed_tx = w3.eth.account.signTransaction(tx, private_key=PRIVATE_KEY)
-            tx_hash = w3.eth.sendRawTransaction(signed_tx.rawTransaction)
-            w3.eth.waitForTransactionReceipt(tx_hash)
+            signed_tx = w3.eth.account.sign_transaction(tx, private_key=PRIVATE_KEY)
+            tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
+            w3.eth.wait_for_transaction_receipt(tx_hash)
             assert dc.functions.isFCDEnabled().call()
 
-            tx = dc.functions.disableFreeContractDeployment().buildTransaction({
-                'nonce': w3.eth.getTransactionCount(self.OWNER_ADDRESS),
+            tx = dc.functions.disableFreeContractDeployment().build_transaction({
+                'nonce': w3.eth.get_transaction_count(self.OWNER_ADDRESS),
                 'from': self.OWNER_ADDRESS
             })
-            signed_tx = w3.eth.account.signTransaction(tx, private_key=PRIVATE_KEY)
-            tx_hash = w3.eth.sendRawTransaction(signed_tx.rawTransaction)
-            w3.eth.waitForTransactionReceipt(tx_hash)
+            signed_tx = w3.eth.account.sign_transaction(tx, private_key=PRIVATE_KEY)
+            tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
+            w3.eth.wait_for_transaction_receipt(tx_hash)
             assert not dc.functions.isFCDEnabled().call()
 
     def test_enable_and_disable_fcd_failed(self, tmpdir):
@@ -211,11 +211,11 @@ class TestEtherbaseGenerator(TestSolidityProject):
             dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
 
             with pytest.raises(web3.exceptions.ContractLogicError):
-                dc.functions.enableFreeContractDeployment().buildTransaction({
+                dc.functions.enableFreeContractDeployment().build_transaction({
                     'from': '0xD300000000000000000000000000000000000001'
                 })
 
             with pytest.raises(web3.exceptions.ContractLogicError):
-                dc.functions.disableFreeContractDeployment().buildTransaction({
+                dc.functions.disableFreeContractDeployment().build_transaction({
                     'from': '0xD300000000000000000000000000000000000001'
                 })
