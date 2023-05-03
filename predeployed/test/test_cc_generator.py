@@ -93,7 +93,6 @@ class TestEtherbaseGenerator(TestSolidityProject):
                 w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
             dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
-            print("here")
             tx = dc.functions.addToWhitelist('0xD300000000000000000000000000000000000001').build_transaction({
                 'nonce': w3.eth.get_transaction_count(self.OWNER_ADDRESS),
                 'from': self.OWNER_ADDRESS
