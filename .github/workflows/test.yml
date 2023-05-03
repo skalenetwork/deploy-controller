@@ -8,10 +8,10 @@ jobs:
       ETH_PRIVATE_KEY: ${{ secrets.ETH_PRIVATE_KEY }}
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Node 14
+      - name: Set up Node 18
         uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 18
       - name: Install dependencies
         run: |
           yarn install
