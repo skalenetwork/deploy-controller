@@ -34,9 +34,9 @@ class ConfigControllerGenerator(AccessControlEnumerableGenerator):
     ARTIFACT_FILENAME = 'ConfigController.json'
     META_FILENAME = 'ConfigController.meta.json'
     DEFAULT_ADMIN_ROLE = (0).to_bytes(32, 'big')
-    DEPLOYER_ROLE = w3.solidityKeccak(['string'], ['DEPLOYER_ROLE'])
-    DEPLOYER_ADMIN_ROLE = w3.solidityKeccak(['string'], ['DEPLOYER_ADMIN_ROLE'])
-    MTM_ADMIN_ROLE = w3.solidityKeccak(['string'], ['MTM_ADMIN_ROLE'])
+    DEPLOYER_ROLE = w3.solidity_keccak(['string'], ['DEPLOYER_ROLE'])
+    DEPLOYER_ADMIN_ROLE = w3.solidity_keccak(['string'], ['DEPLOYER_ADMIN_ROLE'])
+    MTM_ADMIN_ROLE = w3.solidity_keccak(['string'], ['MTM_ADMIN_ROLE'])
 
     # ---------- storage ----------
     # --------Initializable--------

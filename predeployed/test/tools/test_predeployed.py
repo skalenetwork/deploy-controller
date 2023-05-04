@@ -59,14 +59,16 @@ class TestPredeployed:
         process = subprocess.run(['geth', '--datadir', tmpdir, 'init', genesis_filename], capture_output=True)
         assert process.returncode == 0
 
-        self.geth = subprocess.Popen(['geth', '--datadir', tmpdir, '--http', '--mine',
-                                      '--http.api', 'personal,eth,net,web3,txpool,miner'],
-                                     stderr=subprocess.PIPE, universal_newlines=True)
+        # run geth
+        self.geth = subprocess.Popen(['geth', '--datadir', tmpdir, '--http',
+                                      '--miner.etherbase', '0x0000000000000000000000000000000000000001', '--mine',
+                                      '--http.api', 'personal,eth,net,web3,txpool,miner'], stderr=subprocess.PIPE, universal_newlines=True)
+
         time.sleep(5)
 
         # mine blocks
-        subprocess.Popen(['curl', '-d', '{"method": "miner_start"}', '-H', 'Content-type: application/json',
-                          'http://127.0.0.1:8545'])
+        process = subprocess.Popen(['curl', '-X', 'POST', '-H', 'Content-Type: application/json',
+                                    '--data', '{"jsonrpc":"2.0","method":"miner_start","params":[],"id":1}', 'http://localhost:8545'])
 
         while True:
             assert self.geth.poll() is None
