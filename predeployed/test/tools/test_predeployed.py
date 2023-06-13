@@ -61,7 +61,7 @@ class TestPredeployed:
 
         # run geth
         self.geth = subprocess.Popen(['geth', '--datadir', tmpdir, '--http',
-                                      '--miner.etherbase', '0x0000000000000000000000000000000000000001', '--mine',
+                                      '--miner.etherbase', '0x0000000000000000000000000000000000000001',
                                       '--http.api', 'personal,eth,net,web3,txpool,miner'], stderr=subprocess.PIPE, universal_newlines=True)
 
         time.sleep(5)
