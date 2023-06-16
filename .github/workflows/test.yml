@@ -3,15 +3,15 @@ on: [push, pull_request]
 
 jobs:
   predeployed-test:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     env:
       ETH_PRIVATE_KEY: ${{ secrets.ETH_PRIVATE_KEY }}
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Node 14
+      - name: Set up Node 16
         uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 16
       - name: Install dependencies
         run: |
           yarn install

@@ -12,7 +12,7 @@ class GethInstance:
 
     def __enter__(self):
         return self.geth.pid
-    
+
     def __exit__(self, exc_type, exc_val, exc_tb):
         if self.geth:
             self.geth.terminate()
@@ -25,17 +25,17 @@ class TestPredeployed:
 
     def generate_extradata(self):
         self.password = ''.join(random.choices(string.ascii_lowercase + string.digits, k=12))
-        password_filename = os.path.join(self.datadir, 'base_genesis.json')
-        with open(password_filename, 'w') as password_f:
+        self.password_filename = os.path.join(self.datadir, 'password.txt')
+        with open(self.password_filename, 'w') as password_f:
             password_f.writelines([self.password])
-        process = subprocess.run(['geth', 'account', 'new', '--datadir', self.datadir, '--password', password_filename])
+        process = subprocess.run(['geth', 'account', 'new', '--datadir', self.datadir, '--password', self.password_filename])
         assert process.returncode == 0
 
         process = subprocess.Popen(['geth', 'account', 'list', '--datadir', self.datadir], stdout=subprocess.PIPE,
                                    universal_newlines=True)
         account0 = process.stdout.readline()
-        address = account0.split()[2][1:-1]
-        return '0x' + '00' * 32 + address + '00' * 65
+        self.author_address = account0.split()[2][1:-1]
+        return '0x' + '00' * 32 + self.author_address + '00' * 65
 
     def generate_genesis(self, owner: str, allocations: dict = {}):
         base_genesis_filename = os.path.join(os.path.dirname(__file__), 'base_genesis.json')
@@ -59,14 +59,18 @@ class TestPredeployed:
         process = subprocess.run(['geth', '--datadir', tmpdir, 'init', genesis_filename], capture_output=True)
         assert process.returncode == 0
 
-        self.geth = subprocess.Popen(['geth', '--datadir', tmpdir, '--http', '--mine',
-                                      '--http.api', 'personal,eth,net,web3,txpool,miner'],
-                                     stderr=subprocess.PIPE, universal_newlines=True)
-        time.sleep(5)
+        # run geth
+        self.geth = subprocess.Popen(['geth',
+                                      '--datadir', tmpdir,
+                                      '--http',
+                                      '--http.api', 'personal,eth,net,web3,txpool,miner',
+                                      '--mine',
+                                      '--miner.etherbase', self.author_address,
+                                      '--allow-insecure-unlock',
+                                      '--unlock', self.author_address,
+                                      '--password', self.password_filename], stderr=subprocess.PIPE, universal_newlines=True)
 
-        # mine blocks
-        subprocess.Popen(['curl', '-d', '{"method": "miner_start"}', '-H', 'Content-type: application/json',
-                          'http://127.0.0.1:8545'])
+        time.sleep(5)
 
         while True:
             assert self.geth.poll() is None

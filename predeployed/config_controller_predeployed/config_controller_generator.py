@@ -20,7 +20,6 @@
 from os.path import dirname, join
 from typing import Dict
 from pkg_resources import get_distribution
-from web3.auto import w3
 
 from predeployed_generator.upgradeable_contract_generator import UpgradeableContractGenerator
 from predeployed_generator.openzeppelin.access_control_enumerable_generator \
@@ -34,9 +33,12 @@ class ConfigControllerGenerator(AccessControlEnumerableGenerator):
     ARTIFACT_FILENAME = 'ConfigController.json'
     META_FILENAME = 'ConfigController.meta.json'
     DEFAULT_ADMIN_ROLE = (0).to_bytes(32, 'big')
-    DEPLOYER_ROLE = w3.solidityKeccak(['string'], ['DEPLOYER_ROLE'])
-    DEPLOYER_ADMIN_ROLE = w3.solidityKeccak(['string'], ['DEPLOYER_ADMIN_ROLE'])
-    MTM_ADMIN_ROLE = w3.solidityKeccak(['string'], ['MTM_ADMIN_ROLE'])
+    DEPLOYER_ROLE = AccessControlEnumerableGenerator.calculate_keccak(
+        ['string'], ['DEPLOYER_ROLE'])
+    DEPLOYER_ADMIN_ROLE = AccessControlEnumerableGenerator.calculate_keccak(
+        ['string'], ['DEPLOYER_ADMIN_ROLE'])
+    MTM_ADMIN_ROLE = AccessControlEnumerableGenerator.calculate_keccak(
+        ['string'], ['MTM_ADMIN_ROLE'])
 
     # ---------- storage ----------
     # --------Initializable--------
