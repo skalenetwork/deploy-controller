@@ -6,7 +6,13 @@ from web3.auto import w3
 from web3 import Account
 from web3.middleware import geth_poa_middleware
 
-from config_controller_predeployed import ConfigControllerGenerator, CONFIG_CONTROLLER_ADDRESS
+from config_controller_predeployed import \
+    ConfigControllerGenerator, \
+    CONFIG_CONTROLLER_ADDRESS, \
+    TOKEN_MANAGER_ERC20_ADDRESS, \
+    TOKEN_MANAGER_ERC721_ADDRESS, \
+    TOKEN_MANAGER_ERC1155_ADDRESS, \
+    TOKEN_MANAGER_ERC721_WITH_METADATA_ADDRESS
 from .tools.test_solidity_project import TestSolidityProject
 
 PRIVATE_KEY = os.environ['ETH_PRIVATE_KEY']
@@ -50,12 +56,36 @@ class TestEtherbaseGenerator(TestSolidityProject):
             assert w3.is_connected()
 
             dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
-            assert dc.functions.getRoleMemberCount(ConfigControllerGenerator.DEPLOYER_ROLE).call() == 1
+            assert dc.functions.getRoleMemberCount(ConfigControllerGenerator.DEPLOYER_ROLE).call() == 5
             assert dc.functions.getRoleAdmin(ConfigControllerGenerator.DEPLOYER_ROLE).call() == \
                    ConfigControllerGenerator.DEPLOYER_ADMIN_ROLE
             assert dc.functions.getRoleMember(ConfigControllerGenerator.DEPLOYER_ROLE,
                                               0).call() == self.OWNER_ADDRESS
             assert dc.functions.hasRole(ConfigControllerGenerator.DEPLOYER_ROLE, self.OWNER_ADDRESS).call()
+
+    def test_ima_deployer_role(self, tmpdir):
+        self.datadir = tmpdir
+        genesis = self.prepare_genesis()
+
+        with self.run_geth(tmpdir, genesis):
+            assert w3.is_connected()
+
+            dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
+            assert dc.functions.getRoleMemberCount(ConfigControllerGenerator.DEPLOYER_ROLE).call() == 5
+            assert dc.functions.getRoleAdmin(ConfigControllerGenerator.DEPLOYER_ROLE).call() == \
+                   ConfigControllerGenerator.DEPLOYER_ADMIN_ROLE
+            assert dc.functions.getRoleMember(ConfigControllerGenerator.DEPLOYER_ROLE,
+                                              1).call() == self.TOKEN_MANAGER_ERC20_ADDRESS
+            assert dc.functions.getRoleMember(ConfigControllerGenerator.DEPLOYER_ROLE,
+                                              2).call() == self.TOKEN_MANAGER_ERC721_ADDRESS
+            assert dc.functions.getRoleMember(ConfigControllerGenerator.DEPLOYER_ROLE,
+                                              3).call() == self.TOKEN_MANAGER_ERC1155_ADDRESS
+            assert dc.functions.getRoleMember(ConfigControllerGenerator.DEPLOYER_ROLE,
+                                              4).call() == self.TOKEN_MANAGER_ERC721_WITH_METADATA_ADDRESS
+            assert dc.functions.hasRole(ConfigControllerGenerator.DEPLOYER_ROLE, self.TOKEN_MANAGER_ERC20_ADDRESS).call()
+            assert dc.functions.hasRole(ConfigControllerGenerator.DEPLOYER_ROLE, self.TOKEN_MANAGER_ERC721_ADDRESS).call()
+            assert dc.functions.hasRole(ConfigControllerGenerator.DEPLOYER_ROLE, self.TOKEN_MANAGER_ERC1155_ADDRESS).call()
+            assert dc.functions.hasRole(ConfigControllerGenerator.DEPLOYER_ROLE, self.TOKEN_MANAGER_ERC721_WITH_METADATA_ADDRESS).call()
 
     def test_deployer_admin_role(self, tmpdir):
         self.datadir = tmpdir

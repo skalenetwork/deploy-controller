@@ -40,6 +40,12 @@ class ConfigControllerGenerator(AccessControlEnumerableGenerator):
     MTM_ADMIN_ROLE = AccessControlEnumerableGenerator.calculate_keccak(
         ['string'], ['MTM_ADMIN_ROLE'])
 
+    TOKEN_MANAGER_ERC20_ADDRESS = '0xD2aAA00500000000000000000000000000000000'
+    TOKEN_MANAGER_ERC721_ADDRESS = '0xD2aaa00600000000000000000000000000000000'
+    TOKEN_MANAGER_ERC1155_ADDRESS = '0xD2aaA00900000000000000000000000000000000'
+    TOKEN_MANAGER_ERC721_WITH_METADATA_ADDRESS = '0xd2AaA00a00000000000000000000000000000000'
+
+
     # ---------- storage ----------
     # --------Initializable--------
     # 0:    _initialized, _initializing;
@@ -101,6 +107,10 @@ class ConfigControllerGenerator(AccessControlEnumerableGenerator):
         cls._setup_role(storage, roles_slots, cls.DEPLOYER_ADMIN_ROLE, [schain_owner])
         cls._setup_role(storage, roles_slots, cls.MTM_ADMIN_ROLE, [schain_owner])
         cls._setup_role(storage, roles_slots, cls.DEPLOYER_ROLE, [schain_owner])
+        cls._setup_role(storage, roles_slots, cls.DEPLOYER_ROLE, [cls.TOKEN_MANAGER_ERC20_ADDRESS])
+        cls._setup_role(storage, roles_slots, cls.DEPLOYER_ROLE, [cls.TOKEN_MANAGER_ERC721_ADDRESS])
+        cls._setup_role(storage, roles_slots, cls.DEPLOYER_ROLE, [cls.TOKEN_MANAGER_ERC1155_ADDRESS])
+        cls._setup_role(storage, roles_slots, cls.DEPLOYER_ROLE, [cls.TOKEN_MANAGER_ERC721_WITH_METADATA_ADDRESS])
         cls._setup_role_admin(storage, roles_slots, cls.DEPLOYER_ROLE, cls.DEPLOYER_ADMIN_ROLE)
         cls._write_string(storage, cls.VERSION_SLOT,
                           get_distribution('config_controller_predeployed').version)
