@@ -6,13 +6,7 @@ from web3.auto import w3
 from web3 import Account
 from web3.middleware import geth_poa_middleware
 
-from config_controller_predeployed import \
-    ConfigControllerGenerator, \
-    CONFIG_CONTROLLER_ADDRESS, \
-    TOKEN_MANAGER_ERC20_ADDRESS, \
-    TOKEN_MANAGER_ERC721_ADDRESS, \
-    TOKEN_MANAGER_ERC1155_ADDRESS, \
-    TOKEN_MANAGER_ERC721_WITH_METADATA_ADDRESS
+from config_controller_predeployed import ConfigControllerGenerator, CONFIG_CONTROLLER_ADDRESS
 from .tools.test_solidity_project import TestSolidityProject
 
 PRIVATE_KEY = os.environ['ETH_PRIVATE_KEY']
@@ -74,6 +68,12 @@ class TestEtherbaseGenerator(TestSolidityProject):
             assert dc.functions.getRoleMemberCount(ConfigControllerGenerator.DEPLOYER_ROLE).call() == 5
             assert dc.functions.getRoleAdmin(ConfigControllerGenerator.DEPLOYER_ROLE).call() == \
                    ConfigControllerGenerator.DEPLOYER_ADMIN_ROLE
+
+            TOKEN_MANAGER_ERC20_ADDRESS = '0xD2aAA00500000000000000000000000000000000'
+            TOKEN_MANAGER_ERC721_ADDRESS = '0xD2aaa00600000000000000000000000000000000'
+            TOKEN_MANAGER_ERC1155_ADDRESS = '0xD2aaA00900000000000000000000000000000000'
+            TOKEN_MANAGER_ERC721_WITH_METADATA_ADDRESS = '0xd2AaA00a00000000000000000000000000000000'
+
             assert dc.functions.getRoleMember(ConfigControllerGenerator.DEPLOYER_ROLE,
                                               1).call() == self.TOKEN_MANAGER_ERC20_ADDRESS
             assert dc.functions.getRoleMember(ConfigControllerGenerator.DEPLOYER_ROLE,
