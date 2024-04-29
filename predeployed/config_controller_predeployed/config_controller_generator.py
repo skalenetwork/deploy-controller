@@ -106,11 +106,11 @@ class ConfigControllerGenerator(AccessControlEnumerableGenerator):
         cls._setup_role(storage, roles_slots, cls.DEFAULT_ADMIN_ROLE, [schain_owner])
         cls._setup_role(storage, roles_slots, cls.DEPLOYER_ADMIN_ROLE, [schain_owner])
         cls._setup_role(storage, roles_slots, cls.MTM_ADMIN_ROLE, [schain_owner])
-        cls._setup_role(storage, roles_slots, cls.DEPLOYER_ROLE, [schain_owner])
-        cls._setup_role(storage, roles_slots, cls.DEPLOYER_ROLE, [cls.TOKEN_MANAGER_ERC20_ADDRESS])
-        cls._setup_role(storage, roles_slots, cls.DEPLOYER_ROLE, [cls.TOKEN_MANAGER_ERC721_ADDRESS])
-        cls._setup_role(storage, roles_slots, cls.DEPLOYER_ROLE, [cls.TOKEN_MANAGER_ERC1155_ADDRESS])
-        cls._setup_role(storage, roles_slots, cls.DEPLOYER_ROLE, [cls.TOKEN_MANAGER_ERC721_WITH_METADATA_ADDRESS])
+        cls._setup_role(storage, roles_slots, cls.DEPLOYER_ROLE, [schain_owner, \
+            cls.TOKEN_MANAGER_ERC20_ADDRESS, \
+            cls.TOKEN_MANAGER_ERC721_ADDRESS, \
+            cls.TOKEN_MANAGER_ERC1155_ADDRESS, \
+            cls.TOKEN_MANAGER_ERC721_WITH_METADATA_ADDRESS])
         cls._setup_role_admin(storage, roles_slots, cls.DEPLOYER_ROLE, cls.DEPLOYER_ADMIN_ROLE)
         cls._write_string(storage, cls.VERSION_SLOT,
                           get_distribution('config_controller_predeployed').version)
