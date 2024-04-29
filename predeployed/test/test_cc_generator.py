@@ -75,17 +75,17 @@ class TestEtherbaseGenerator(TestSolidityProject):
             TOKEN_MANAGER_ERC721_WITH_METADATA_ADDRESS = '0xd2AaA00a00000000000000000000000000000000'
 
             assert dc.functions.getRoleMember(ConfigControllerGenerator.DEPLOYER_ROLE,
-                                              1).call() == self.TOKEN_MANAGER_ERC20_ADDRESS
+                                              1).call() == TOKEN_MANAGER_ERC20_ADDRESS
             assert dc.functions.getRoleMember(ConfigControllerGenerator.DEPLOYER_ROLE,
-                                              2).call() == self.TOKEN_MANAGER_ERC721_ADDRESS
+                                              2).call() == TOKEN_MANAGER_ERC721_ADDRESS
             assert dc.functions.getRoleMember(ConfigControllerGenerator.DEPLOYER_ROLE,
-                                              3).call() == self.TOKEN_MANAGER_ERC1155_ADDRESS
+                                              3).call() == TOKEN_MANAGER_ERC1155_ADDRESS
             assert dc.functions.getRoleMember(ConfigControllerGenerator.DEPLOYER_ROLE,
-                                              4).call() == self.TOKEN_MANAGER_ERC721_WITH_METADATA_ADDRESS
-            assert dc.functions.hasRole(ConfigControllerGenerator.DEPLOYER_ROLE, self.TOKEN_MANAGER_ERC20_ADDRESS).call()
-            assert dc.functions.hasRole(ConfigControllerGenerator.DEPLOYER_ROLE, self.TOKEN_MANAGER_ERC721_ADDRESS).call()
-            assert dc.functions.hasRole(ConfigControllerGenerator.DEPLOYER_ROLE, self.TOKEN_MANAGER_ERC1155_ADDRESS).call()
-            assert dc.functions.hasRole(ConfigControllerGenerator.DEPLOYER_ROLE, self.TOKEN_MANAGER_ERC721_WITH_METADATA_ADDRESS).call()
+                                              4).call() == TOKEN_MANAGER_ERC721_WITH_METADATA_ADDRESS
+            assert dc.functions.hasRole(ConfigControllerGenerator.DEPLOYER_ROLE, TOKEN_MANAGER_ERC20_ADDRESS).call()
+            assert dc.functions.hasRole(ConfigControllerGenerator.DEPLOYER_ROLE, TOKEN_MANAGER_ERC721_ADDRESS).call()
+            assert dc.functions.hasRole(ConfigControllerGenerator.DEPLOYER_ROLE, TOKEN_MANAGER_ERC1155_ADDRESS).call()
+            assert dc.functions.hasRole(ConfigControllerGenerator.DEPLOYER_ROLE, TOKEN_MANAGER_ERC721_WITH_METADATA_ADDRESS).call()
 
     def test_deployer_admin_role(self, tmpdir):
         self.datadir = tmpdir
