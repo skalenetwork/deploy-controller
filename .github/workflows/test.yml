@@ -67,7 +67,7 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: 'pip'
-          cache-dependency-path: setup.py
+          cache-dependency-path: predeployed/setup.py
       - name: Compile and generate artifacts
         run: |
           npm run compile
