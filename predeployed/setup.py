@@ -21,7 +21,7 @@ extras_require['dev'] = (
 
 setup(
     name='config-controller-predeployed',
-    version='1.0.1',
+    version='0.0.0', # should be overridden during build
     description='A tool for generating predeployed config controller smart contract',
     long_description_content_type="text/markdown",
     author='SKALE Labs',
