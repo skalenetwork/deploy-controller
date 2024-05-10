@@ -22,12 +22,16 @@
     "version": "node -e \"console.log(require('./package.json').version);\""
   },
   "dependencies": {
-    "@openzeppelin/contracts-upgradeable": "^4.3.2"
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@openzeppelin/contracts-upgradeable": "^4.3.2",
+    "@openzeppelin/hardhat-upgrades": ">=1.28.0 <2.0.0",
+    "@skalenetwork/upgrade-tools": "^2.0.2",
+    "ethers": "^5.0.0"
   },
   "devDependencies": {
-      "hardhat": "^2.6.4",
-      "ts-node": "^10.2.1",
-      "typescript": "^4.4.3"
+    "hardhat": "^2.22.3",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
   },
   "publishConfig": {
     "access": "public"
