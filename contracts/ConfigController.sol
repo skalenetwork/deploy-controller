@@ -95,6 +95,7 @@ contract ConfigController is AccessControlEnumerableUpgradeable {
         return
             freeContractDeployment ||
             hasRole(DEPLOYER_ROLE, deployer) ||
+            hasRole(DEPLOYER_ROLE, transactionOrigin) ||
             hasRole(allowedOriginRole(deployer), transactionOrigin);
     }
 
