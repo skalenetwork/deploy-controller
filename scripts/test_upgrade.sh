@@ -41,6 +41,7 @@ git checkout -- contracts/ConfigController.sol
 
 rm -r --interactive=never $DEPLOYED_DIR
 
+export VERSION=$(yarn run --silent version)
 ALLOW_NOT_ATOMIC_UPGRADE="OK" ABI="data/$ABI_FILENAME" npx hardhat run migrations/upgrade.ts --network localhost
 
 npx kill-port 8545
