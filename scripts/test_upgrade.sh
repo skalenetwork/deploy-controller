@@ -4,7 +4,7 @@ set -e
 
 if [ -z $GITHUB_WORKSPACE ]
 then
-    GITHUB_WORKSPACE="$(dirname "$(dirname "$(dirname "$(realpath "$0")")")")"
+    GITHUB_WORKSPACE="$(dirname "$(dirname "$(realpath "$0")")")"
 fi
 
 if [ -z $GITHUB_REPOSITORY ]
@@ -22,23 +22,23 @@ DEPLOYED_DIR=$GITHUB_WORKSPACE/deployed-config-controller/
 DEPLOYED_WITH_NODE_VERSION="lts/fermium"
 CURRENT_NODE_VERSION=$(nvm current)
 
+npx hardhat node > /dev/null &
+
 git clone --branch $DEPLOYED_TAG https://github.com/$GITHUB_REPOSITORY.git $DEPLOYED_DIR
 
-npx hardhat node &
+# TODO: replace with using previous deploy script
+cp $DEPLOYED_DIR/contracts/ConfigController.sol contracts/
 
-cd $DEPLOYED_DIR
-nvm install $DEPLOYED_WITH_NODE_VERSION
-nvm use $DEPLOYED_WITH_NODE_VERSION
-yarn install
-
+# TODO: remove this operation after the next upgrade
+cat contracts/ConfigController.sol | sed '$ d' | echo "$(cat -)
+    function initialize() external initializer {
+        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+    }
+}" > contracts/ConfigController.sol
 VERSION=$DEPLOYED_VERSION npx hardhat run migrations/deploy.ts --network localhost
-rm $GITHUB_WORKSPACE/.openzeppelin/unknown-*.json || true
-cp .openzeppelin/unknown-*.json $GITHUB_WORKSPACE/.openzeppelin
 ABI_FILENAME="config-controller-$DEPLOYED_VERSION-localhost-abi.json"
-cp "data/$ABI_FILENAME" "$GITHUB_WORKSPACE/data"
+git checkout -- contracts/ConfigController.sol
 
-cd $GITHUB_WORKSPACE
-nvm use $CURRENT_NODE_VERSION
 rm -r --interactive=never $DEPLOYED_DIR
 
 ALLOW_NOT_ATOMIC_UPGRADE="OK" ABI="data/$ABI_FILENAME" npx hardhat run migrations/upgrade.ts --network localhost

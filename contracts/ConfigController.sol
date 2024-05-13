@@ -31,6 +31,10 @@ contract ConfigController is AccessControlEnumerableUpgradeable {
     bool freeContractDeployment;
     string public version;
 
+    function initialize() external initializer {
+        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+    }
+
     function enableMTM() external {
         require(hasRole(MTM_ADMIN_ROLE, msg.sender), "Caller is not an admin");
         require(!multiTransactionMode, "MultiTransactionMode is already enabled");
@@ -68,19 +72,19 @@ contract ConfigController is AccessControlEnumerableUpgradeable {
         version = _version;
     }
 
-    function allowOrigin(address transactionOrigin, address deployer) external onlyRole(this.allowedOriginRoleAdmin(deployer)) {
+    function allowOrigin(address transactionOrigin, address deployer) external onlyRole(allowedOriginRoleAdmin(deployer)) {
         _grantRole(allowedOriginRole(deployer), transactionOrigin);
     }
 
-    function forbidOrigin(address transactionOrigin, address deployer) external onlyRole(this.allowedOriginRoleAdmin(deployer)) {
+    function forbidOrigin(address transactionOrigin, address deployer) external onlyRole(allowedOriginRoleAdmin(deployer)) {
         _revokeRole(allowedOriginRole(deployer), transactionOrigin);
     }
 
-    function addAllowedOriginRoleAdmin(address admin, address deployer) external onlyRole(this.DEPLOYER_ADMIN_ROLE()) {
+    function addAllowedOriginRoleAdmin(address admin, address deployer) external onlyRole(DEPLOYER_ADMIN_ROLE) {
         _grantRole(allowedOriginRoleAdmin(deployer), admin);
     }
 
-    function removeAllowedOriginRoleAdmin(address admin, address deployer) external onlyRole(this.DEPLOYER_ADMIN_ROLE()) {
+    function removeAllowedOriginRoleAdmin(address admin, address deployer) external onlyRole(DEPLOYER_ADMIN_ROLE) {
         _revokeRole(allowedOriginRoleAdmin(deployer), admin);
     }
 
