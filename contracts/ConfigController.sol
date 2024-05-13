@@ -3,7 +3,7 @@
 /*
     ConfigController.sol - config-controller
     Copyright (C) 2018-Present SKALE Labs
-    @author Artem Payvin
+    @author Dmytro Stebaiev
 
     config-controller is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
