@@ -11,7 +11,8 @@ extras_require = {
     ],
     'dev': [
         "twine==4.0.2",
-        "pytest==6.2.5"
+        "pytest==6.2.5",
+        "python-dotenv"
     ],
 }
 

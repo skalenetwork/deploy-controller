@@ -70,8 +70,6 @@ class TestPredeployed:
                                       '--unlock', self.author_address,
                                       '--password', self.password_filename], stderr=subprocess.PIPE, universal_newlines=True)
 
-        time.sleep(5)
-
         while True:
             assert self.geth.poll() is None
             output_line = self.geth.stderr.readline()

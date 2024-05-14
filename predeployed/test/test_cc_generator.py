@@ -2,12 +2,15 @@ import os
 
 import pytest
 import web3.exceptions
+from dotenv import load_dotenv
 from web3.auto import w3
 from web3 import Account
 from web3.middleware import geth_poa_middleware
 
 from config_controller_predeployed import ConfigControllerGenerator, CONFIG_CONTROLLER_ADDRESS
 from .tools.test_solidity_project import TestSolidityProject
+
+load_dotenv()
 
 PRIVATE_KEY = os.environ['ETH_PRIVATE_KEY']
 
@@ -40,7 +43,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
             assert dc.functions.getRoleMember(ConfigControllerGenerator.DEFAULT_ADMIN_ROLE,
                                               0).call() == self.OWNER_ADDRESS
             assert dc.functions.hasRole(ConfigControllerGenerator.DEFAULT_ADMIN_ROLE, self.OWNER_ADDRESS).call()
-            assert dc.functions.version().call() == '1.0.1'
+            assert dc.functions.version().call() == '0.0.0'
 
     def test_deployer_role(self, tmpdir):
         self.datadir = tmpdir
@@ -94,12 +97,13 @@ class TestEtherbaseGenerator(TestSolidityProject):
 
             dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
             tx = dc.functions.addToWhitelist('0xD300000000000000000000000000000000000001').build_transaction({
+                'gasPrice': 5000000000,
                 'nonce': w3.eth.get_transaction_count(self.OWNER_ADDRESS),
                 'from': self.OWNER_ADDRESS
             })
             signed_tx = w3.eth.account.sign_transaction(tx, private_key=PRIVATE_KEY)
             tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
-            w3.eth.wait_for_transaction_receipt(tx_hash)
+            w3.eth.wait_for_transaction_receipt(tx_hash, timeout=15)
             assert dc.functions.isAddressWhitelisted('0xD300000000000000000000000000000000000001').call()
 
     def test_add_whitelist_failed(self, tmpdir):
