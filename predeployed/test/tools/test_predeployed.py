@@ -70,11 +70,21 @@ class TestPredeployed:
                                       '--unlock', self.author_address,
                                       '--password', self.password_filename], stderr=subprocess.PIPE, universal_newlines=True)
 
+        output = []
         while True:
-            assert self.geth.poll() is None
-            output_line = self.geth.stderr.readline()
-            if 'HTTP server started' in output_line:
-                break
+            return_code = self.geth.poll()
+            if return_code is None:
+                output_line = self.geth.stderr.readline()
+                output.append(output_line)
+                if 'HTTP server started' in output_line:
+                    break
+            else:
+                # geth stopped
+                for line in output:
+                    print(line)
+                for line in self.geth.stderr.readlines():
+                    print(line)
+                raise RuntimeError("Geth was not started")
 
         return GethInstance(self.geth)
 
