@@ -97,7 +97,6 @@ class TestEtherbaseGenerator(TestSolidityProject):
 
             dc = w3.eth.contract(address=CONFIG_CONTROLLER_ADDRESS, abi=self.get_dc_abi())
             tx = dc.functions.addToWhitelist('0xD300000000000000000000000000000000000001').build_transaction({
-                'gasPrice': 5000000000,
                 'nonce': w3.eth.get_transaction_count(self.OWNER_ADDRESS),
                 'from': self.OWNER_ADDRESS
             })
