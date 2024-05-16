@@ -1,6 +1,8 @@
 import "@nomiclabs/hardhat-ethers";
+import "@nomicfoundation/hardhat-chai-matchers";
 import "@openzeppelin/hardhat-upgrades"
 import '@typechain/hardhat'
+import 'solidity-coverage'
 import { HardhatUserConfig } from "hardhat/config";
 
 

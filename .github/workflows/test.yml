@@ -38,13 +38,13 @@ jobs:
     # - name: Test ABI generation
     #   run: npx hardhat run scripts/generateAbi.ts
 
-    # - name: Run tests
-    #   run: yarn exec hardhat coverage
+    - name: Run tests
+      run: yarn exec hardhat coverage
 
-    # - name: Upload coverage reports to Codecov
-    #   uses: codecov/codecov-action@v3
-    #   env:
-    #     CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
 
   predeployed-test:
     runs-on: ubuntu-latest
