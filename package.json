@@ -26,6 +26,7 @@
     "@openzeppelin/contracts-upgradeable": "^4.3.2",
     "@openzeppelin/hardhat-upgrades": ">=1.28.0 <2.0.0",
     "@skalenetwork/upgrade-tools": "^2.0.2",
+    "dotenv": "^16.4.5",
     "ethers": "^5.0.0"
   },
   "devDependencies": {

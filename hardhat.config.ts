@@ -3,8 +3,11 @@ import "@nomicfoundation/hardhat-chai-matchers";
 import "@openzeppelin/hardhat-upgrades"
 import '@typechain/hardhat'
 import 'solidity-coverage'
+import * as dotenv from "dotenv"
 import { HardhatUserConfig } from "hardhat/config";
 
+
+dotenv.config();
 
 function getCustomUrl(url: string | undefined) {
   if (url) {
