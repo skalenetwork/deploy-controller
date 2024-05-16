@@ -47,7 +47,6 @@ class TestPredeployed:
                 }
             })
             genesis['alloc'].update(allocations)
-            genesis['extradata'] = self.generate_extradata()
             return genesis
 
     def run_geth(self, tmpdir, genesis):
@@ -60,23 +59,32 @@ class TestPredeployed:
         assert process.returncode == 0
 
         # run geth
-        self.geth = subprocess.Popen(['geth',
-                                      '--datadir', tmpdir,
-                                      '--http',
-                                      '--http.api', 'personal,eth,net,web3,txpool,miner',
-                                      '--mine',
-                                      '--miner.etherbase', self.author_address,
-                                      '--allow-insecure-unlock',
-                                      '--unlock', self.author_address,
-                                      '--password', self.password_filename], stderr=subprocess.PIPE, universal_newlines=True)
+        self.geth = subprocess.Popen(
+            [
+                'geth',
+                '--datadir', tmpdir,
+                '--dev',
+                '--http'
+            ],
+            stderr=subprocess.PIPE,
+            universal_newlines=True
+        )
 
-        time.sleep(5)
-
+        output = []
         while True:
-            assert self.geth.poll() is None
-            output_line = self.geth.stderr.readline()
-            if 'HTTP server started' in output_line:
-                break
+            return_code = self.geth.poll()
+            if return_code is None:
+                output_line = self.geth.stderr.readline()
+                output.append(output_line)
+                if 'HTTP server started' in output_line:
+                    break
+            else:
+                # geth stopped
+                for line in output:
+                    print(line)
+                for line in self.geth.stderr.readlines():
+                    print(line)
+                raise RuntimeError("Geth was not started")
 
         return GethInstance(self.geth)
 

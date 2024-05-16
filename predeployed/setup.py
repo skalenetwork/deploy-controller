@@ -11,7 +11,8 @@ extras_require = {
     ],
     'dev': [
         "twine==4.0.2",
-        "pytest==6.2.5"
+        "pytest==6.2.5",
+        "python-dotenv"
     ],
 }
 
@@ -21,7 +22,7 @@ extras_require['dev'] = (
 
 setup(
     name='config-controller-predeployed',
-    version='1.0.1',
+    version='0.0.0', # should be overridden during build
     description='A tool for generating predeployed config controller smart contract',
     long_description_content_type="text/markdown",
     author='SKALE Labs',
