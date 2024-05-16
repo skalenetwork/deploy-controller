@@ -38,6 +38,10 @@ describe("ConfigController", () => {
             await configController.enableFreeContractDeployment();
             expect(await configController.isDeploymentAllowed(user1.address, user1.address)).to.be.true;
             expect(await configController.isDeploymentAllowed(user1.address, user1.address)).to.be.true;
+
+            await configController.disableFreeContractDeployment();
+            expect(await configController.isDeploymentAllowed(user1.address, user1.address)).to.be.false;
+            expect(await configController.isDeploymentAllowed(user1.address, user1.address)).to.be.false;
         });
 
         it("should allow to deploy with DEPLOYER_ROLE", async () => {
@@ -49,6 +53,34 @@ describe("ConfigController", () => {
             await configController.connect(team).removeFromWhitelist(user1.address);
             expect(await configController.isDeploymentAllowed(user1.address, user1.address)).to.be.false;
             expect(await configController.isDeploymentAllowed(user1.address, user1Contract.address)).to.be.false;
+        });
+
+        it("should allow to deploy via smart contract", async () => {
+            const configController = await loadFixture(deployConfigControllerFixture);
+            await expect(configController.connect(user1).addAllowedOriginRoleAdmin(user1.address, user1Contract.address))
+                .to.be.rejected;
+            await configController.connect(team).addAllowedOriginRoleAdmin(user1.address, user1Contract.address);
+
+            expect(await configController.isDeploymentAllowed(user1.address, user1Contract.address)).to.be.false;
+
+            await configController.connect(user1).allowOrigin(user1.address, user1Contract.address);
+            await expect(configController.connect(user1).allowOrigin(user1.address, user2Contract.address))
+                .to.be.rejected;
+
+            expect(await configController.isDeploymentAllowed(user1.address, user1Contract.address)).to.be.true;
+            expect(await configController.isDeploymentAllowed(user1.address, user2Contract.address)).to.be.false;
+
+            await expect(configController.connect(user2).forbidOrigin(user1.address, user1Contract.address))
+                .to.be.rejected;
+            await configController.connect(user1).forbidOrigin(user1.address, user1Contract.address);
+
+            expect(await configController.isDeploymentAllowed(user1.address, user1Contract.address)).to.be.false;
+
+            await expect(configController.connect(user2).removeAllowedOriginRoleAdmin(user1.address, user1Contract.address))
+                .to.be.rejected;
+            await configController.connect(team).removeAllowedOriginRoleAdmin(user1.address, user1Contract.address);
+            await expect(configController.connect(user1).allowOrigin(user1.address, user1Contract.address))
+                .to.be.rejected;
         })
     });
 });
