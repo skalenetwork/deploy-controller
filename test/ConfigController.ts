@@ -36,8 +36,19 @@ describe("ConfigController", () => {
         it("should allow anyone to deploy on free deployment", async () => {
             const configController = await loadFixture(deployConfigControllerFixture);
             await configController.enableFreeContractDeployment();
-            expect(await configController.isDeploymentAllowed(user2.address, user1.address)).to.be.true;
-            expect(await configController.isDeploymentAllowed(user2.address, user1.address)).to.be.true;
+            expect(await configController.isDeploymentAllowed(user1.address, user1.address)).to.be.true;
+            expect(await configController.isDeploymentAllowed(user1.address, user1.address)).to.be.true;
         });
+
+        it("should allow to deploy with DEPLOYER_ROLE", async () => {
+            const configController = await loadFixture(deployConfigControllerFixture);
+            expect(await configController.isDeploymentAllowed(user1.address, user1.address)).to.be.false;
+            await configController.connect(team).addToWhitelist(user1.address);
+            expect(await configController.isDeploymentAllowed(user1.address, user1.address)).to.be.true;
+            expect(await configController.isDeploymentAllowed(user1.address, user1Contract.address)).to.be.true;
+            await configController.connect(team).removeFromWhitelist(user1.address);
+            expect(await configController.isDeploymentAllowed(user1.address, user1.address)).to.be.false;
+            expect(await configController.isDeploymentAllowed(user1.address, user1Contract.address)).to.be.false;
+        })
     });
 });

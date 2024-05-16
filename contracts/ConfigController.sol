@@ -33,6 +33,7 @@ contract ConfigController is AccessControlEnumerableUpgradeable {
 
     function initialize() external initializer {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _setRoleAdmin(DEPLOYER_ROLE, DEPLOYER_ADMIN_ROLE);
     }
 
     function enableMTM() external {
