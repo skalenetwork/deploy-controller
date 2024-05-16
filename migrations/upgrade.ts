@@ -58,7 +58,7 @@ class ConfigControllerUpgrader extends Upgrader {
 
 async function main() {
     const upgrader = new ConfigControllerUpgrader(
-        "1.9.4",
+        "1.0.0-develop.6",
         await getConfigControllerAbiAndAddresses(),
         contracts,
     );
