@@ -70,7 +70,7 @@ jobs:
           cache-dependency-path: predeployed/setup.py
       - name: Compile and generate artifacts
         run: |
-          npm run compile
+          yarn compile
           python scripts/generate_artifacts.py
       - name: Install geth
         run: |
