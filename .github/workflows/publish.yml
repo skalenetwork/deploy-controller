@@ -61,7 +61,6 @@ jobs:
         env:
           VERSION: ${{ env.VERSION }}
         run: |
-          mkdir data
           pip install predeployed/dist/*.whl
           ./predeployed/scripts/generate_abi.py > data/config-controller-$VERSION-abi.json
       - name: Create Release
