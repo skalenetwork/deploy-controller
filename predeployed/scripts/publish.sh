@@ -2,14 +2,11 @@
 
 set -e
 
-#: "${PIP_USERNAME?Need to set PIP_USERNAME}"
-#: "${PIP_PASSWORD?Need to set PIP_PASSWORD}"
-
 if [ $TEST = 1 ]; then
-twine upload --repository testpypi dist/*
+python3 -m twine upload --repository testpypi -u __token__ -p "$PYPI_TOKEN" dist/*
 else
 echo "Uploading to pypi"
-twine upload -u $PIP_USERNAME -p $PIP_PASSWORD dist/*
+python3 -m twine upload -u __token__ -p "$PYPI_TOKEN" dist/*
 fi
 
 echo "==================================================================="
