@@ -53,7 +53,8 @@ jobs:
       - name: Publish to pip
         working-directory: ./predeployed
         env:
-          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+          PIP_USERNAME: ${{ secrets.PIP_USERNAME }}
+          PIP_PASSWORD: ${{ secrets.PIP_PASSWORD }}
         run: |
           bash ./scripts/publish.sh
       - name: Generate ABI
