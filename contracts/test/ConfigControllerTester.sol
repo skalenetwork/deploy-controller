@@ -2,7 +2,7 @@
 
 /*
     ConfigControllerTester.sol - config-controller
-    Copyright (C) 2018-Present SKALE Labs
+    Copyright (C) 2024-Present SKALE Labs
     @author Dmytro Stebaiev
 
     config-controller is free software: you can redistribute it and/or modify
