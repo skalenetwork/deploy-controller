@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 #: "${PIP_USERNAME?Need to set PIP_USERNAME}"
 #: "${PIP_PASSWORD?Need to set PIP_PASSWORD}"
 
