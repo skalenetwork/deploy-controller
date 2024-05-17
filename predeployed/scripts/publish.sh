@@ -2,6 +2,7 @@
 
 set -e
 
+cd "$(dirname "$0")/.."
 if [ $TEST = 1 ]; then
 python3 -m twine upload --repository testpypi -u __token__ -p "$PYPI_TOKEN" dist/*
 else
