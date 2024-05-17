@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+
+set -e
+
 VERSION=$(cd "$(dirname '$0')/.."; npm run --silent version)
 USAGE_MSG='Usage: BRANCH=[BRANCH] calculate_version.sh'
 

@@ -35,9 +35,11 @@ cat contracts/ConfigController.sol | sed '$ d' | echo "$(cat -)
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
 }" > contracts/ConfigController.sol
+rm contracts/test/ConfigControllerTester.sol
 VERSION=$DEPLOYED_VERSION npx hardhat run migrations/deploy.ts --network localhost
 ABI_FILENAME="config-controller-$DEPLOYED_VERSION-localhost-abi.json"
 git checkout -- contracts/ConfigController.sol
+git checkout -- contracts/test/ConfigControllerTester.sol
 
 rm -r --interactive=never $DEPLOYED_DIR
 

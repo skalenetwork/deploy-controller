@@ -14,7 +14,7 @@ describe("ConfigController", () => {
     let user2Contract: SignerWithAddress;
 
     const deployConfigControllerFixture = async () => {
-        const factory = await ethers.getContractFactory("ConfigController");
+        const factory = await ethers.getContractFactory("ConfigControllerTester");
         const configController = await upgrades.deployProxy(factory) as ConfigController;
         await configController.grantRole(await configController.DEPLOYER_ADMIN_ROLE(), deployer.address);
         await configController.grantRole(await configController.DEPLOYER_ADMIN_ROLE(), team.address);

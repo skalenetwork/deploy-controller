@@ -31,11 +31,6 @@ contract ConfigController is AccessControlEnumerableUpgradeable {
     bool freeContractDeployment;
     string public version;
 
-    function initialize() external initializer {
-        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _setRoleAdmin(DEPLOYER_ROLE, DEPLOYER_ADMIN_ROLE);
-    }
-
     function enableMTM() external {
         require(hasRole(MTM_ADMIN_ROLE, msg.sender), "Caller is not an admin");
         require(!multiTransactionMode, "MultiTransactionMode is already enabled");
