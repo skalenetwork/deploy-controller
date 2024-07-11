@@ -10,8 +10,9 @@ extras_require = {
         "flake8==3.7.9"
     ],
     'dev': [
-        "twine==3.1.1",
-        "pytest==6.2.5"
+        "twine==4.0.2",
+        "pytest==6.2.5",
+        "python-dotenv"
     ],
 }
 
@@ -21,21 +22,24 @@ extras_require['dev'] = (
 
 setup(
     name='config-controller-predeployed',
-    version='1.0.0',
+    version='0.0.0', # should be overridden during build
     description='A tool for generating predeployed config controller smart contract',
     long_description_content_type="text/markdown",
     author='SKALE Labs',
     author_email='support@skalelabs.com',
     url='https://github.com/skalenetwork/config-controller',
     install_requires=[
-        "predeployed-generator >= 0.0.1a4"
+        "predeployed-generator >= 1.2.0"
     ],
     python_requires='>=3.7,<4',
     extras_require=extras_require,
     keywords=['skale', 'predeployed'],
     packages=find_packages(exclude=['tests']),
     package_data={
-        'config_controller_predeployed': ['artifacts/ConfigController.json']
+        'config_controller_predeployed': [
+            'artifacts/ConfigController.json',
+            'artifacts/ConfigController.meta.json'
+        ]
     },
     setup_requires=["setuptools-markdown"],
     classifiers=[

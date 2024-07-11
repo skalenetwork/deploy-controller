@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+
+set -e
+
 VERSION=$(npm run --silent version)
 USAGE_MSG='Usage: BRANCH=[BRANCH] calculate_version.sh'
 

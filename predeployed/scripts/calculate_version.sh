@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-VERSION=$(python setup.py --version)
+
+set -e
+
+VERSION=$(cd "$(dirname '$0')/.."; npm run --silent version)
 USAGE_MSG='Usage: BRANCH=[BRANCH] calculate_version.sh'
 
 if [ -z "$BRANCH" ]
