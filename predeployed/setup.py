@@ -10,7 +10,7 @@ extras_require = {
         "flake8==3.7.9"
     ],
     'dev': [
-        "twine==4.0.2",
+        "twine==5.1.1",
         "pytest==6.2.5",
         "python-dotenv"
     ],
